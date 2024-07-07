@@ -1,6 +1,5 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-import AccordionItem from './AccordionItem';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 import QueAnsCard from './QueAnsCard';
 import Accuracy from './Accuracy';
 
@@ -38,15 +37,15 @@ const DATA = [
 ];
 
 const ResultScreen1 = () => {
-
-
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.headerText}>Result</Text>
-            <Accuracy accuracy={10} />
-            <QueAnsCard title={'Perfect Answers by AI'} color={'green'} DATA={DATA} />
-            <QueAnsCard title={'Your Answers'} color={'red'} DATA={DATA} />
-        </ScrollView>
+        <SafeAreaView style={styles.container}>
+            <ScrollView>
+                <Text style={styles.headerText}>Result</Text>
+                <Accuracy accuracy={10} />
+                <QueAnsCard title={'Perfect Answers by AI'} color={'green'} DATA={DATA} />
+                <QueAnsCard title={'Your Answers'} color={'red'} DATA={DATA} />
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
@@ -55,11 +54,12 @@ export default ResultScreen1;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#f8f9fa',
     },
     headerText: {
         textAlign: 'center',
         margin: 20,
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: 'bold',
         color: '#333',
     },
