@@ -13,6 +13,7 @@ import ResultScreen from '../components/Testings/ResultScreen';
 import QuestionScreen from '../components/Testings/QuestionScreen';
 import HomeScreen from '../components/Testings/HomePageTest';
 import ResultScreen1 from '../components/ResultScreens/ResultScreen';
+import Question from '../components/QuestionScreens/Question';
 
 
 
@@ -28,10 +29,10 @@ const Router = () => {
             {/* <VoiceTest /> */}
             {/* <PremiumScreen /> */}
 
-
+            <Question />
             {/* <QuestionScreen /> */}
             {/* <ResultScreen /> */}
-            <ResultScreen1 />
+            {/* <ResultScreen1 /> */}
             {/* <TempTest /> */}
 
         </View>

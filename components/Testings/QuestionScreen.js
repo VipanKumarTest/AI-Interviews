@@ -47,7 +47,10 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        padding: 10,
+        rowGap: 5
+
     },
     button: {
         padding: 10,
