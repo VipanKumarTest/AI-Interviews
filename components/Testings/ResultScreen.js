@@ -1,6 +1,5 @@
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
-import React from 'react';
-import MultiAccordion from 'react-native-multi-flow-accordion';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 
 const DATA = [
     {
@@ -35,16 +34,54 @@ const DATA = [
     },
 ];
 
+const AccordionItem = ({ item, expanded, onPress, isChild }) => {
+    return (
+        <View style={[styles.accordionItem, isChild && styles.childItem]}>
+            <TouchableOpacity onPress={onPress}>
+                <Text style={[styles.questionText, expanded && styles.expandedText]}>{item.question}</Text>
+            </TouchableOpacity>
+            {expanded && (
+                <View style={styles.answerContainer}>
+                    <Text style={styles.answerText}>{item.answer}</Text>
+                    {item.children && item.children.map((child, index) => (
+                        <AccordionItem
+                            key={index}
+                            item={child}
+                            expanded={expanded}
+                            onPress={onPress}
+                            isChild={true}
+                        />
+                    ))}
+                </View>
+            )}
+        </View>
+    );
+};
+
 const ResultScreen = () => {
-    const handlePress = (item, index) => {
-        console.log('Item pressed:', item);
+    const [expandedIndex, setExpandedIndex] = useState(null);
+
+    const handlePress = (index) => {
+        setExpandedIndex(index === expandedIndex ? null : index);
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <Text style={{ textAlign: 'center', margin: 20, fontSize: 20 }}>Result</Text>
-            <MultiAccordion data={DATA} />
-        </SafeAreaView>
+        <ScrollView style={styles.container}>
+            <Text style={styles.headerText}>Result</Text>
+            <Text style={styles.subHeaderText}>Perfect Answers by AI</Text>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <View style={styles.questionContainer}>
+                    {DATA.map((item, index) => (
+                        <AccordionItem
+                            key={index}
+                            item={item}
+                            expanded={index === expandedIndex}
+                            onPress={() => handlePress(index)}
+                        />
+                    ))}
+                </View>
+            </ScrollView>
+        </ScrollView>
     );
 };
 
@@ -53,5 +90,60 @@ export default ResultScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    headerText: {
+        textAlign: 'center',
+        margin: 20,
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    subHeaderText: {
+        textAlign: "center",
+        fontSize: 20,
+        color: 'green'
+    },
+    scrollContainer: {
+        padding: 10,
+        paddingTop: 0
+    },
+    questionContainer: {
+        marginTop: 20,
+        marginLeft: 15,
+        marginRight: 15,
+        padding: 20,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 1,
+        elevation: 1,
+    },
+    accordionItem: {
+        marginBottom: 10,
+    },
+    childItem: {
+        paddingLeft: 15,
+        borderLeftWidth: 2,
+        borderLeftColor: '#ddd',
+    },
+    questionText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        paddingBottom: 5
+    },
+    expandedText: {
+        color: 'blue',
+    },
+    answerContainer: {
+        paddingLeft: 10,
+        marginTop: 10,
+    },
+    answerText: {
+        fontSize: 16,
+        color: '#555',
+        textAlign: 'justify',
+        marginBottom: 15
     },
 });

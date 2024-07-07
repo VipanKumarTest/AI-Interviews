@@ -12,6 +12,7 @@ import TempTest from '../components/Testings/TempTest';
 import ResultScreen from '../components/Testings/ResultScreen';
 import QuestionScreen from '../components/Testings/QuestionScreen';
 import HomeScreen from '../components/Testings/HomePageTest';
+import ResultScreen1 from '../components/ResultScreens/ResultScreen';
 
 
 
@@ -29,7 +30,8 @@ const Router = () => {
 
 
             {/* <QuestionScreen /> */}
-            <ResultScreen />
+            {/* <ResultScreen /> */}
+            <ResultScreen1 />
             {/* <TempTest /> */}
 
         </View>
