@@ -1,106 +1,157 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 
 const EditProfile = () => {
-    const [name, setName] = useState('John Doe');
-    const [email, setEmail] = useState('johndoe@example.com');
-    const [links, setLinks] = useState('www.johndoe.com');
-    const [bio, setBio] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.');
+    const [name, setName] = useState('Rahul Kumar');
+    const [email, setEmail] = useState('rahulkumar@example.com');
+    const [links, setLinks] = useState('www.rahulkumar.com');
+    const [bio, setBio] = useState('Passionate web developer with a keen eye for design. Creating beautiful and functional digital experiences.');
 
     return (
-        <ScrollView style={{ backgroundColor: '#E0E5EC' }}>
+        <ScrollView style={styles.scrollView}>
+            <LinearGradient
+                colors={['#4c669f', '#3b5998', '#192f6a']}
+                style={styles.headerGradient}
+            >
+                <View style={styles.headerContent}>
+                    <Image
+                        source={require('../assets/profile.png')}
+                        style={styles.profileImage}
+                    />
+                    <TouchableOpacity style={styles.changePhotoButton}>
+                        <Ionicons name="camera" size={20} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+            </LinearGradient>
+
             <View style={styles.container}>
-                <Image
-                    source={{ uri: 'https://via.placeholder.com/150' }}
-                    style={styles.profileImage}
-                />
-                <TouchableOpacity style={styles.editProfileButton}>
-                    <Text style={styles.editProfileText}>Save Profile</Text>
+                <View style={styles.card}>
+                    <View style={styles.fieldContainer}>
+                        <Ionicons name="person-outline" size={24} color="#4c669f" style={styles.icon} />
+                        <TextInput
+                            style={styles.fieldInput}
+                            value={name}
+                            onChangeText={setName}
+                            placeholder="Name"
+                        />
+                    </View>
+
+                    <View style={styles.fieldContainer}>
+                        <Ionicons name="mail-outline" size={24} color="#4c669f" style={styles.icon} />
+                        <TextInput
+                            style={styles.fieldInput}
+                            value={email}
+                            onChangeText={setEmail}
+                            placeholder="Email"
+                            keyboardType="email-address"
+                        />
+                    </View>
+
+                    <View style={styles.fieldContainer}>
+                        <Ionicons name="link-outline" size={24} color="#4c669f" style={styles.icon} />
+                        <TextInput
+                            style={styles.fieldInput}
+                            value={links}
+                            onChangeText={setLinks}
+                            placeholder="Website"
+                        />
+                    </View>
+
+                    <View style={styles.fieldContainer}>
+                        <Ionicons name="information-circle-outline" size={24} color="#4c669f" style={styles.icon} />
+                        <TextInput
+                            style={[styles.fieldInput, styles.bioInput]}
+                            value={bio}
+                            onChangeText={setBio}
+                            placeholder="Bio"
+                            multiline
+                        />
+                    </View>
+                </View>
+
+                <TouchableOpacity style={styles.saveButton}>
+                    <Text style={styles.saveButtonText}>Save Profile</Text>
                 </TouchableOpacity>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldLabel}>Name:</Text>
-                    <TextInput
-                        style={styles.fieldInput}
-                        value={name}
-                        onChangeText={setName}
-                    />
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldLabel}>Email:</Text>
-                    <TextInput
-                        style={styles.fieldInput}
-                        value={email}
-                        onChangeText={setEmail}
-                    />
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldLabel}>Links:</Text>
-                    <TextInput
-                        style={styles.fieldInput}
-                        value={links}
-                        onChangeText={setLinks}
-                    />
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldLabel}>Bio:</Text>
-                    <TextInput
-                        style={[styles.fieldInput, styles.bioInput]}
-                        value={bio}
-                        onChangeText={setBio}
-                        multiline
-                    />
-                </View>
             </View>
         </ScrollView>
-
     );
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        flex: 1,
+        backgroundColor: '#f0f2f5',
+    },
+    headerGradient: {
+        height: 200,
+    },
+    headerContent: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
         alignItems: 'center',
-        paddingTop: 50,
+        paddingHorizontal: 20,
+        marginTop: 50,
     },
     profileImage: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        borderWidth: 4,
+        borderColor: '#fff',
+    },
+    changePhotoButton: {
+        position: 'absolute',
+        bottom: 40,
+        right: '35%',
+        backgroundColor: '#4c669f',
+        borderRadius: 20,
+        padding: 10,
+    },
+    card: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+        width: '100%',
         marginBottom: 20,
-    },
-    editProfileButton: {
-        backgroundColor: '#007bff',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        marginBottom: 30,
-    },
-    editProfileText: {
-        color: '#fff',
-        fontSize: 16,
+        elevation: 3,
     },
     fieldContainer: {
-        width: '80%',
+        flexDirection: 'row',
+        alignItems: 'center',
         marginBottom: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#e0e0e0',
     },
-    fieldLabel: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#333',
-        marginBottom: 5,
+    icon: {
+        marginRight: 10,
     },
     fieldInput: {
+        flex: 1,
         fontSize: 16,
         color: '#333',
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 10,
-        backgroundColor: '#fff',
+        paddingVertical: 10,
     },
     bioInput: {
         height: 100,
         textAlignVertical: 'top',
+    },
+    saveButton: {
+        backgroundColor: '#1D4ED8',
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        borderRadius: 25,
+        elevation: 2,
+    },
+    saveButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
 

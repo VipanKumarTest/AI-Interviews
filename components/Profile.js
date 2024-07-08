@@ -1,74 +1,136 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 
 const ProfilePage = () => {
     return (
-        <ScrollView>
+        <ScrollView style={styles.scrollView}>
+            <LinearGradient
+                colors={['#4c669f', '#3b5998', '#192f6a']}
+                style={styles.headerGradient}
+            >
+                <View style={styles.headerContent}>
+                    <Image
+                        source={require('../assets/profile.png')}
+                        style={styles.profileImage}
+                    />
+                    <Text style={styles.name}>Rahul Kumar</Text>
+                    <Text style={styles.tagline}>Web Developer & Designer</Text>
+                </View>
+            </LinearGradient>
+
             <View style={styles.container}>
-                <Image
-                    source={{ uri: 'https://via.placeholder.com/150' }}
-                    style={styles.profileImage}
-                />
                 <TouchableOpacity style={styles.editProfileButton}>
                     <Text style={styles.editProfileText}>Edit Profile</Text>
                 </TouchableOpacity>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldLabel}>Name:</Text>
-                    <Text style={styles.fieldValue}>John Doe</Text>
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldLabel}>Email:</Text>
-                    <Text style={styles.fieldValue}>johndoe@example.com</Text>
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldLabel}>Links:</Text>
-                    <Text style={styles.fieldValue}>www.johndoe.com</Text>
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldLabel}>Bio:</Text>
-                    <Text style={styles.fieldValue}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</Text>
+
+                <View style={styles.infoCard}>
+                    <View style={styles.fieldContainer}>
+                        <Ionicons name="mail-outline" size={24} color="#4c669f" />
+                        <View style={styles.fieldTextContainer}>
+                            <Text style={styles.fieldLabel}>Email</Text>
+                            <Text style={styles.fieldValue}>rahulkumar@example.com</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.fieldContainer}>
+                        <Ionicons name="link-outline" size={24} color="#4c669f" />
+                        <View style={styles.fieldTextContainer}>
+                            <Text style={styles.fieldLabel}>Website</Text>
+                            <Text style={styles.fieldValue}>www.rahulkumar.com</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.fieldContainer}>
+                        <Ionicons name="information-circle-outline" size={24} color="#4c669f" />
+                        <View style={styles.fieldTextContainer}>
+                            <Text style={styles.fieldLabel}>Bio</Text>
+                            <Text style={styles.fieldValue}>
+                                Passionate web developer with a keen eye for design. Creating beautiful and functional digital experiences.
+                            </Text>
+                        </View>
+                    </View>
                 </View>
             </View>
         </ScrollView>
-
     );
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        flex: 1,
+        backgroundColor: '#f0f2f5',
+    },
+    headerGradient: {
+        height: 250,
+    },
+    headerContent: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
         alignItems: 'center',
-        paddingTop: 50,
+        paddingHorizontal: 20,
+        marginTop: 20,
     },
     profileImage: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-        marginBottom: 20,
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        borderWidth: 4,
+        borderColor: '#fff',
+    },
+    name: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#fff',
+        marginTop: 10,
+    },
+    tagline: {
+        fontSize: 16,
+        color: '#e0e0e0',
+        marginTop: 5,
     },
     editProfileButton: {
-        backgroundColor: '#007bff',
+        backgroundColor: '#fff',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderRadius: 5,
-        marginBottom: 30,
+        borderRadius: 20,
+        marginBottom: 20,
+        elevation: 2,
     },
     editProfileText: {
-        color: '#fff',
+        color: '#4c669f',
         fontSize: 16,
+        fontWeight: 'bold',
+    },
+    infoCard: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+        width: '100%',
+        elevation: 3,
     },
     fieldContainer: {
-        width: '80%',
+        flexDirection: 'row',
+        alignItems: 'center',
         marginBottom: 20,
     },
+    fieldTextContainer: {
+        marginLeft: 15,
+        flex: 1,
+    },
     fieldLabel: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#333',
+        fontSize: 14,
+        color: '#666',
+        marginBottom: 2,
     },
     fieldValue: {
         fontSize: 16,
-        color: '#666',
+        color: '#333',
     },
 });
 

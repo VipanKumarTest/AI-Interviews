@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Animated, ScrollView } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, Animated, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import TagPicker from './TagPicker';
 
 const InputForm = () => {
@@ -8,9 +10,17 @@ const InputForm = () => {
     const [yearsOfExperience, setYearsOfExperience] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
     const [scaleValue] = useState(new Animated.Value(1));
+    const [isFocused, setIsFocused] = useState({
+        jobRole: false,
+        jobDescription: false,
+        yearsOfExperience: false,
+    });
+
+    const scrollViewRef = useRef();
 
     const handleFormSubmit = () => {
         console.log('Submitted:', { jobRole, jobDescription, yearsOfExperience, selectedColor });
+        // Add your form submission logic here
     };
 
     const animateButtonPress = () => {
@@ -28,87 +38,133 @@ const InputForm = () => {
         ]).start(handleFormSubmit);
     };
 
+    const handleFocus = (field) => {
+        setIsFocused(prev => ({ ...prev, [field]: true }));
+        scrollViewRef.current.scrollTo({ y: 100, animated: true });
+    };
+
+    const handleBlur = (field) => {
+        setIsFocused(prev => ({ ...prev, [field]: false }));
+    };
+
     return (
-        <ScrollView style={styles.container}>
-            <TextInput
-                style={[styles.input, styles.neumorphic]}
-                placeholder="Job Role"
-                value={jobRole}
-                onChangeText={text => setJobRole(text)}
-            />
-            <TextInput
-                style={[styles.input, styles.textArea, styles.neumorphic]}
-                placeholder="Job Description"
-                multiline
-                numberOfLines={4}
-                value={jobDescription}
-                onChangeText={text => setJobDescription(text)}
-            />
-            <TextInput
-                style={[styles.input, styles.neumorphic]}
-                placeholder="Years of Experience (Number only)"
-                keyboardType="numeric"
-                value={yearsOfExperience}
-                onChangeText={text => setYearsOfExperience(text)}
-            />
-            <TagPicker selectedColor={selectedColor} onSelectColor={setSelectedColor} />
-            <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
-                <TouchableOpacity style={[styles.submitButton, styles.neumorphicButton]} onPress={animateButtonPress}>
-                    <Text style={styles.submitButtonText}>Submit</Text>
-                </TouchableOpacity>
-            </Animated.View>
-        </ScrollView>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
+            <ScrollView ref={scrollViewRef} contentContainerStyle={styles.scrollContent}>
+                <Text style={styles.title}>Create Job Posting</Text>
+
+                <View style={[styles.inputContainer, isFocused.jobRole && styles.inputContainerFocused]}>
+                    <Ionicons name="briefcase-outline" size={24} color="#4c669f" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Job Role"
+                        value={jobRole}
+                        onChangeText={setJobRole}
+                        onFocus={() => handleFocus('jobRole')}
+                        onBlur={() => handleBlur('jobRole')}
+                    />
+                </View>
+
+                <View style={[styles.inputContainer, isFocused.jobDescription && styles.inputContainerFocused]}>
+                    <Ionicons name="document-text-outline" size={24} color="#4c669f" style={styles.icon} />
+                    <TextInput
+                        style={[styles.input, styles.textArea]}
+                        placeholder="Job Description"
+                        multiline
+                        numberOfLines={4}
+                        value={jobDescription}
+                        onChangeText={setJobDescription}
+                        onFocus={() => handleFocus('jobDescription')}
+                        onBlur={() => handleBlur('jobDescription')}
+                    />
+                </View>
+
+                <View style={[styles.inputContainer, isFocused.yearsOfExperience && styles.inputContainerFocused]}>
+                    <Ionicons name="time-outline" size={24} color="#4c669f" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Years of Experience"
+                        keyboardType="numeric"
+                        value={yearsOfExperience}
+                        onChangeText={setYearsOfExperience}
+                        onFocus={() => handleFocus('yearsOfExperience')}
+                        onBlur={() => handleBlur('yearsOfExperience')}
+                    />
+                </View>
+
+                <TagPicker selectedColor={selectedColor} onSelectColor={setSelectedColor} />
+
+                <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
+                    <TouchableOpacity onPress={animateButtonPress}>
+                        <LinearGradient
+                            colors={['#4c669f', '#3b5998', '#192f6a']}
+                            style={styles.submitButton}
+                        >
+                            <Text style={styles.submitButtonText}>Submit</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
+                </Animated.View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        height: '100%',
+        backgroundColor: '#f0f2f5',
     },
-    input: {
-        height: 40,
+    scrollContent: {
+        padding: 20,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#4c669f',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderRadius: 10,
         marginBottom: 15,
         paddingHorizontal: 10,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+    },
+    inputContainerFocused: {
+        borderColor: '#4c669f',
+        borderWidth: 2,
+    },
+    icon: {
+        marginRight: 10,
+    },
+    input: {
+        flex: 1,
+        height: 50,
+        fontSize: 16,
     },
     textArea: {
         height: 100,
+        textAlignVertical: 'top',
     },
     submitButton: {
-        backgroundColor: '#007BFF',
-        padding: 10,
-        borderRadius: 10,
+        padding: 15,
+        borderRadius: 25,
         alignItems: 'center',
-        shadowOffset: { width: 6, height: 6 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
+        marginTop: 20,
     },
     submitButtonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
-    },
-    input: {
-        height: 40,
-        marginBottom: 15,
-        paddingHorizontal: 10,
-        backgroundColor: '#f5f5f5',  // Light background color for better contrast
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 10,
-    },
-    neumorphic: {
-        backgroundColor: '#f5f5f5',  // Ensure this matches the input background
-        borderRadius: 10,
-        shadowColor: '#A3B1C6',
-        shadowOffset: { width: -6, height: -6 },
-        shadowOpacity: 1,
-        shadowRadius: 6,
-        elevation: 5,
-        paddingHorizontal: 10,
-        borderWidth: 1,  // Adding border width for better visibility
-        borderColor: '#E0E5EC',  // Border color for neumorphic effect
     },
 });
 
