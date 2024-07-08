@@ -1,30 +1,37 @@
-import { View, Text, TouchableOpacity, StyleSheet, LayoutAnimation, Platform, UIManager } from 'react-native';
 import React, { useState } from 'react';
-import { Feather } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
-if (Platform.OS === 'android') {
-    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-}
-
-const AccordionItem = ({ item, isChild }) => {
+const AccordionItem = ({ item, isChild = false }) => {
     const [expanded, setExpanded] = useState(false);
+    const [animation] = useState(new Animated.Value(0));
 
     const toggleExpand = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setExpanded(!expanded);
+        Animated.timing(animation, {
+            toValue: expanded ? 0 : 1,
+            duration: 300,
+            easing: Easing.bezier(0.4, 0.0, 0.2, 1),
+            useNativeDriver: false
+        }).start();
     };
+
+    const rotateIcon = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '180deg']
+    });
 
     return (
         <View style={[styles.accordionItem, isChild && styles.childItem]}>
             <TouchableOpacity style={styles.questionContainer} onPress={toggleExpand}>
                 <Text style={[styles.questionText, expanded && styles.expandedText]}>{item.question}</Text>
-                {item.children ? (
-                    !expanded ? <Feather name="chevron-down" size={20} color="black" /> : <Feather name="chevron-up" size={20} color="black" />
-                ) : <View />}
+                <Animated.View style={{ transform: [{ rotate: rotateIcon }] }}>
+                    <MaterialIcons name="expand-more" size={24} color="#007AFF" />
+                </Animated.View>
             </TouchableOpacity>
 
             {expanded && (
-                <View style={styles.answerContainer}>
+                <Animated.View style={[styles.answerContainer, { opacity: animation }]}>
                     <Text style={styles.answerText}>{item.answer}</Text>
                     {item.children && item.children.map((child, index) => (
                         <AccordionItem
@@ -33,53 +40,47 @@ const AccordionItem = ({ item, isChild }) => {
                             isChild={true}
                         />
                     ))}
-                </View>
+                </Animated.View>
             )}
         </View>
     );
 };
 
-export default AccordionItem;
-
 const styles = StyleSheet.create({
     accordionItem: {
-        marginBottom: 10,
-        backgroundColor: '#ffffff',
+        marginBottom: 15,
+        backgroundColor: '#f8f9fa',
         borderRadius: 10,
-        padding: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
-        elevation: 2,
+        overflow: 'hidden',
     },
     childItem: {
-        paddingLeft: 15,
+        marginLeft: 20,
         borderLeftWidth: 2,
-        borderLeftColor: '#ddd',
+        borderLeftColor: '#007AFF',
     },
     questionContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        padding: 15,
     },
     questionText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        paddingBottom: 5,
-        width: '90%',
+        fontSize: 16,
+        fontWeight: '600',
+        flex: 1,
     },
     expandedText: {
-        color: '#007BFF',
+        color: '#007AFF',
     },
     answerContainer: {
-        paddingLeft: 10,
-        marginTop: 10,
+        padding: 15,
+        backgroundColor: '#ffffff',
     },
     answerText: {
-        fontSize: 16,
-        color: '#555',
-        textAlign: 'justify',
-        marginBottom: 15,
+        fontSize: 14,
+        color: '#333',
+        lineHeight: 20,
     },
 });
+
+export default AccordionItem;

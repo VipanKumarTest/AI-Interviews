@@ -1,5 +1,6 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import QueAnsCard from './QueAnsCard';
 import Accuracy from './Accuracy';
 
@@ -39,28 +40,41 @@ const DATA = [
 const ResultScreen1 = () => {
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
-                <Text style={styles.headerText}>Result</Text>
-                <Accuracy accuracy={10} />
-                <QueAnsCard title={'Perfect Answers by AI'} color={'green'} DATA={DATA} />
-                <QueAnsCard title={'Your Answers'} color={'red'} DATA={DATA} />
-            </ScrollView>
+            <LinearGradient
+                colors={['#4c669f', '#3b5998', '#192f6a']}
+                style={styles.gradient}
+            >
+                <ScrollView contentContainerStyle={styles.scrollContent}>
+                    <Text style={styles.headerText}>Your Results</Text>
+                    <Accuracy accuracy={10} />
+                    <QueAnsCard title={'AI-Generated Answers'} color={'#4CAF50'} DATA={DATA} />
+                    <QueAnsCard title={'Your Answers'} color={'#FF5722'} DATA={DATA} />
+                </ScrollView>
+            </LinearGradient>
         </SafeAreaView>
     );
 };
 
-export default ResultScreen1;
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f8f9fa',
+    },
+    gradient: {
+        flex: 1,
+    },
+    scrollContent: {
+        padding: 20,
     },
     headerText: {
         textAlign: 'center',
         margin: 20,
-        fontSize: 26,
+        fontSize: 32,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#fff',
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowOffset: {width: -1, height: 1},
+        textShadowRadius: 10
     },
 });
+
+export default ResultScreen1;
