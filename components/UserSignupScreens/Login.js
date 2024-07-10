@@ -21,6 +21,7 @@ const LoginScreen = ({ navigation }) => {
         setLoading(true);
         // Your login logic here
         setTimeout(() => setLoading(false), 2000); // Simulating API call
+        navigation.navigate('Home')
     };
 
     const shakeInput = () => {
@@ -80,7 +81,7 @@ const LoginScreen = ({ navigation }) => {
                             <MaterialCommunityIcons name="login" size={24} color="white" />
                         </LinearGradient>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.miniLogin} onPress={() => navigation.navigate('SignUp')}>
+                    <TouchableOpacity style={styles.miniLogin} onPress={() => navigation.navigate('SignupScreen')}>
                         <Text style={styles.miniLoginText}>Don't have an account? Sign up</Text>
                     </TouchableOpacity>
                 </Animated.View>

@@ -16,7 +16,7 @@ const questions = [
     'What are the steps to deploy a React Native app to the App Store and Google Play Store?'
 ];
 
-const QuestionCard = ({ question, index, onPress }) => {
+const QuestionCard = ({ question, index, onPress, navigation }) => {
     const [status, setStatus] = useState('unanswered');
     const animatedValue = new Animated.Value(0);
 
@@ -29,6 +29,7 @@ const QuestionCard = ({ question, index, onPress }) => {
             animatedValue.setValue(0);
             onPress();
             setStatus(status === 'unanswered' ? 'correct' : 'unanswered');
+            navigation.navigate('InterviewScreen')
         });
     };
 
@@ -65,7 +66,7 @@ const QuestionCard = ({ question, index, onPress }) => {
     );
 };
 
-const QuestionScreen = () => {
+const QuestionScreen = ({ navigation }) => {
     const [answeredCount, setAnsweredCount] = useState(0);
 
     const handleQuestionPress = () => {
@@ -84,7 +85,8 @@ const QuestionScreen = () => {
                         key={index}
                         question={question}
                         index={index}
-                        onPress={handleQuestionPress}
+                        onPress={() => navigation.navigate('InterviewScreen')}
+                        navigation={navigation}
                     />
                 ))}
             </ScrollView>

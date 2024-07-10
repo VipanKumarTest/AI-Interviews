@@ -20,6 +20,7 @@ const Signup = ({ navigation }) => {
         }
         setLoading(true);
         setTimeout(() => setLoading(false), 2000);
+        navigation.navigate('Home')
     };
 
     const shakeInput = () => {
@@ -90,7 +91,7 @@ const Signup = ({ navigation }) => {
                             <MaterialCommunityIcons name="login" size={24} color="white" />
                         </LinearGradient>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.miniLogin} onPress={() => navigation.navigate('SignUp')}>
+                    <TouchableOpacity style={styles.miniLogin} onPress={() => navigation.navigate('LoginScreen')}>
                         <Text style={styles.miniLoginText}>Already have an account? Sign in</Text>
                     </TouchableOpacity>
                 </Animated.View>

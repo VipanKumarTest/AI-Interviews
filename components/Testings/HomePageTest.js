@@ -24,7 +24,7 @@ const HomeScreen = () => {
           <TouchableOpacity style={styles.profileButton} onPress={toggleModal}>
             <Image
               style={styles.profileImage}
-              source={{ uri: 'https://img.freepik.com/premium-vector/hand-drawing-cartoon-girl-cute-girl-drawing-profile-picture_488586-692.jpg?w=740' }}
+              source={require('../../assets/profile.png')}
             />
           </TouchableOpacity>
         </View>

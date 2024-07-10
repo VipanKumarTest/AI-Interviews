@@ -1,0 +1,45 @@
+import React, { useState } from 'react';
+import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import Header from './Header';
+import SearchBar from './SearchBar';
+import StartInterviewButton from './StartInterviewButton';
+import ExploreSection from './ExploreSection';
+import InterviewHistory from './InterviewHistory';
+import BottomNavBar from './BottomNavBar';
+
+const HomeScreen = ({ navigation }) => {
+    const [search, setSearch] = useState('');
+    const [activeTab, setActiveTab] = useState('Home');
+
+    const handleTabPress = (tabName, screenName) => {
+        setActiveTab(tabName);
+        navigation.navigate(screenName);
+    };
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <ScrollView>
+                <Header />
+                <View style={styles.content}>
+                    <SearchBar value={search} onChangeText={setSearch} />
+                    <StartInterviewButton navigation={navigation} />
+                    <ExploreSection />
+                    <InterviewHistory navigation={navigation} />
+                </View>
+            </ScrollView>
+            <BottomNavBar navigation={navigation} activeTab={activeTab} onTabPress={handleTabPress} />
+        </SafeAreaView>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#f0f0f0',
+    },
+    content: {
+        padding: 20,
+    },
+});
+
+export default HomeScreen;

@@ -61,6 +61,8 @@ const InterviewScreen = () => {
 
         const uri = recording.getURI();
         console.log('Recording stopped and stored at', uri);
+        console.log('object');
+        navigation.navigate('ResultScreen');
     }
 
     async function startSpeechRecognition() {
@@ -112,7 +114,7 @@ const InterviewScreen = () => {
         );
     }
 
-    function toggleCameraFacing() {
+    function toggleCameraFacing({ navigation }) {
         setFacing(current => (current === 'back' ? 'front' : 'back'));
     }
 

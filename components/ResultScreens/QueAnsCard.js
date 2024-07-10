@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList } from 'react-native';
 import AccordionItem from './AccordionItem';
 
 const QueAnsCard = ({ title, color, DATA }) => {
-    console.log(DATA);
+    // console.log(DATA);
     return (
         <View style={styles.container}>
             <Text style={[styles.title, { color: color }]}>{title}</Text>

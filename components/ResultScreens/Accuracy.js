@@ -15,7 +15,7 @@ const Accuracy = ({ accuracy }) => {
 
     const width = animatedValue.interpolate({
         inputRange: [0, 10],
-        outputRange: ['0%', '100%'],
+        outputRange: ['0%', '60%'],
     });
 
     return (
@@ -29,7 +29,7 @@ const Accuracy = ({ accuracy }) => {
                 <Animated.Text style={styles.score}>
                     {animatedValue.interpolate({
                         inputRange: [0, 10],
-                        outputRange: ['0.0', '10.0'],
+                        outputRange: ['6', '10.0'],
                     })}
                     <Text style={styles.totalScore}> / 10</Text>
                 </Animated.Text>

@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import TagPicker from './TagPicker';
 
-const InputForm = () => {
+const InputForm = ({ navigation }) => {
     const [jobRole, setJobRole] = useState('');
     const [jobDescription, setJobDescription] = useState('');
     const [yearsOfExperience, setYearsOfExperience] = useState('');
@@ -36,6 +36,7 @@ const InputForm = () => {
                 useNativeDriver: true,
             }),
         ]).start(handleFormSubmit);
+        navigation.navigate('QuestionsScreen')
     };
 
     const handleFocus = (field) => {
