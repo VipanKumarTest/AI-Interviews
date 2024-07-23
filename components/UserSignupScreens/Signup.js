@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated, Easing, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import authService from '../../appwrite/auth';
 
 const Signup = ({ navigation }) => {
     const [credential, setCredential] = useState({ user: '', email: '', password: '' });
@@ -19,8 +20,19 @@ const Signup = ({ navigation }) => {
             return;
         }
         setLoading(true);
-        setTimeout(() => setLoading(false), 2000);
-        navigation.navigate('Home')
+        try {
+            const user = authService.createAccount(credential.email, credential.password, credential.user);
+            if (user) {
+                navigation.navigate('Home');
+            } else {
+                shakeInput();
+            }
+        } catch (error) {
+            console.log('Register failed:', error);
+            shakeInput();
+        } finally {
+            setLoading(false);
+        }
     };
 
     const shakeInput = () => {

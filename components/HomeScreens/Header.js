@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import ProfileModal from './ProfileModal';
 
-const Header = () => {
+const Header = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
@@ -17,7 +17,7 @@ const Header = () => {
                 </TouchableOpacity>
             </View>
             <Text style={styles.subHeaderText}>Assistant Pro</Text>
-            <ProfileModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+            <ProfileModal visible={modalVisible} navigation={navigation} onClose={() => setModalVisible(false)} />
         </View>
     );
 };

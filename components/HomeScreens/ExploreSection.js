@@ -1,36 +1,35 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 const ExploreSection = () => {
+    const data = [
+        { id: '1', title: 'Interview Types', icon: 'comments' },
+        { id: '2', title: 'Industries', icon: 'building' },
+        { id: '3', title: 'Skills', icon: 'chart-line' },
+        { id: '4', title: 'Tips', icon: 'lightbulb' },
+    ];
+
+    const renderItem = ({ item }) => (
+        <TouchableOpacity style={styles.card}>
+            <FontAwesome5 name={item.icon} size={24} color="#3b5998" />
+            <Text style={styles.cardText}>{item.title}</Text>
+        </TouchableOpacity>
+    );
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Explore</Text>
-            <View style={styles.cardContainer}>
-                {['Interview Types', 'Industries', 'Skills', 'Tips'].map((item, index) => (
-                    <TouchableOpacity key={index} style={styles.card}>
-                        <FontAwesome5 name={getIconName(item)} size={24} color="#4facfe" />
-                        <Text style={styles.cardText}>{item}</Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
+            <FlatList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id}
+                numColumns={2}
+                columnWrapperStyle={styles.cardContainer}
+                contentContainerStyle={styles.listContentContainer}
+            />
         </View>
     );
-};
-
-const getIconName = (item) => {
-    switch (item) {
-        case 'Interview Types':
-            return 'comments';
-        case 'Industries':
-            return 'building';
-        case 'Skills':
-            return 'chart-line';
-        case 'Tips':
-            return 'lightbulb';
-        default:
-            return 'question';
-    }
 };
 
 const styles = StyleSheet.create({
@@ -43,17 +42,19 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     cardContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         justifyContent: 'space-between',
+        marginBottom: 15,
+    },
+    listContentContainer: {
+        paddingBottom: 20,
     },
     card: {
-        width: '48%',
+        flex: 1,
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 15,
         alignItems: 'center',
-        marginBottom: 15,
+        margin: 5,
         elevation: 3,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },

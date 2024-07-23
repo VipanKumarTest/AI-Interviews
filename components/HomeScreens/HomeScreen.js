@@ -19,7 +19,7 @@ const HomeScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                <Header />
+                <Header navigation={navigation} />
                 <View style={styles.content}>
                     <SearchBar value={search} onChangeText={setSearch} />
                     <StartInterviewButton navigation={navigation} />

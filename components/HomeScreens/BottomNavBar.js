@@ -31,7 +31,7 @@ const BottomNavBar = ({ navigation, activeTab, onTabPress }) => {
                             <Ionicons
                                 name={tab.icon}
                                 size={24}
-                                color={activeTab === tab.name ? '#4facfe' : '#888'}
+                                color={activeTab === tab.name ? '#192f6a' : '#888'}
                             />
                             {activeTab === tab.name && <View style={styles.activeIndicator} />}
                         </>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30,
-        backgroundColor: '#4facfe',
+        backgroundColor: '#3b5998',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: -30,

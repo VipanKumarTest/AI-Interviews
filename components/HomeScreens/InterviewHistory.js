@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const InterviewHistory = ({ navigation }) => {
-  const historyData = [
+  const [historyData, setHistoryData] = useState([
     { id: '1', title: 'React Developer', date: '2023-07-01' },
     { id: '2', title: 'Product Manager', date: '2023-06-28' },
     { id: '3', title: 'UX Designer', date: '2023-06-25' },
-  ];
+  ]);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.historyItem} onPress={() => navigation.navigate('ResultScreen')}>
+    <TouchableOpacity style={styles.historyItem} onPress={() => navigation.navigate('ResultScreen', { interviewId: item.id })}>
       <View style={styles.historyContent}>
         <Text style={styles.historyTitle}>{item.title}</Text>
         <Text style={styles.historyDate}>{item.date}</Text>
@@ -26,15 +26,19 @@ const InterviewHistory = ({ navigation }) => {
         data={historyData}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        ListEmptyComponent={<Text style={styles.emptyText}>No interview history available.</Text>}
       />
-      <Text style={styles.seeAll}>See all</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('AllInterviewsScreen')}>
+        <Text style={styles.seeAll}>See all</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 40,
+    flex: 1,
+    bottom: 30
   },
   title: {
     fontSize: 24,
@@ -61,6 +65,7 @@ const styles = StyleSheet.create({
   historyTitle: {
     fontSize: 16,
     fontWeight: '500',
+    color: '#3b5998'
   },
   historyDate: {
     fontSize: 14,
@@ -71,8 +76,14 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     color: 'blue',
     textAlign: 'right',
-    marginRight: 5,
-  }
+    marginTop: 10,
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: '#999',
+    marginTop: 20,
+    fontSize: 16,
+  },
 });
 
 export default InterviewHistory;

@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated, Easing, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import authService from '../../appwrite/auth';
 
 const LoginScreen = ({ navigation }) => {
     const [credential, setCredential] = useState({ email: '', password: '' });
@@ -13,16 +14,46 @@ const LoginScreen = ({ navigation }) => {
         setCredential({ ...credential, [name]: value });
     };
 
+    // const signInWithEmail = async () => {
+    //     if (!credential.email || !credential.password) {
+    //         shakeInput();
+    //         return;
+    //     }
+    //     setLoading(true);
+    //     const user = authService.login(credential.email, credential.password).then((data) => {
+    //         console.log(data);
+    //         return data;
+    //     })
+    //     setTimeout(() => setLoading(false), 2000); // Simulating API call
+    //     if (user) {
+    //         navigation.navigate('Home')
+    //     }
+    //     else {
+    //         shakeInput();
+    //     }
+    // };
+
     const signInWithEmail = async () => {
         if (!credential.email || !credential.password) {
             shakeInput();
             return;
         }
         setLoading(true);
-        // Your login logic here
-        setTimeout(() => setLoading(false), 2000); // Simulating API call
-        navigation.navigate('Home')
+        try {
+            const user = await authService.login(credential.email, credential.password);
+            if (user) {
+                navigation.navigate('Home');
+            } else {
+                shakeInput();
+            }
+        } catch (error) {
+            console.log('Login failed:', error);
+            shakeInput();
+        } finally {
+            setLoading(false);
+        }
     };
+
 
     const shakeInput = () => {
         Animated.sequence([

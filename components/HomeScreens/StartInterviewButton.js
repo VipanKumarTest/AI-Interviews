@@ -6,7 +6,7 @@ const StartInterviewButton = ({ navigation }) => {
   return (
     <TouchableOpacity onPress={() => navigation.navigate('InputFormScreen')}>
       <LinearGradient
-        colors={['#4facfe', '#00f2fe']}
+        colors={['#4c669f', '#3b5998', '#192f6a']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.button}
