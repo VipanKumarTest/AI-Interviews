@@ -14,25 +14,6 @@ const LoginScreen = ({ navigation }) => {
         setCredential({ ...credential, [name]: value });
     };
 
-    // const signInWithEmail = async () => {
-    //     if (!credential.email || !credential.password) {
-    //         shakeInput();
-    //         return;
-    //     }
-    //     setLoading(true);
-    //     const user = authService.login(credential.email, credential.password).then((data) => {
-    //         console.log(data);
-    //         return data;
-    //     })
-    //     setTimeout(() => setLoading(false), 2000); // Simulating API call
-    //     if (user) {
-    //         navigation.navigate('Home')
-    //     }
-    //     else {
-    //         shakeInput();
-    //     }
-    // };
-
     const signInWithEmail = async () => {
         if (!credential.email || !credential.password) {
             shakeInput();
@@ -42,6 +23,7 @@ const LoginScreen = ({ navigation }) => {
         try {
             const user = await authService.login(credential.email, credential.password);
             if (user) {
+                // console.log(user);
                 navigation.navigate('Home');
             } else {
                 shakeInput();

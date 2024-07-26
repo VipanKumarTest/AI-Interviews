@@ -23,6 +23,7 @@ const Signup = ({ navigation }) => {
         try {
             const user = authService.createAccount(credential.email, credential.password, credential.user);
             if (user) {
+                console.log(user);
                 navigation.navigate('Home');
             } else {
                 shakeInput();

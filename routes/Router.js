@@ -1,36 +1,21 @@
 import 'react-native-gesture-handler';
 import React from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-// import { createStackNavigator } from '@react-navigation/stack';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-// Screens
 import PremiumScreen from '../components/PremiumScreen';
-import VoiceTest from '../components/Testing2';
-// import InterviewScreen from '../components/Testing';
-import ProfilePage from '../components/Profile';
 import EditProfile from '../components/EditProfile';
 import InputForm from '../components/GetDetails';
-// import HomeScreen from '../components/Testings/HomePageTest';
 import ResultScreen1 from '../components/ResultScreens/ResultScreen';
 import Question from '../components/QuestionScreens/Question';
 import LoginScreen from '../components/UserSignupScreens/Login';
 import SignupScreen from '../components/UserSignupScreens/Signup';
 import InterviewScreen from '../components/InterviewScreen';
-// import HomeScreen from '../components/Testings/TempTest';
 import HomeScreen from '../components/HomeScreens/HomeScreen';
 import StartInterviewButton from '../components/HomeScreens/StartInterviewButton';
-import Herooo from '../components/NavTemp/Hero';
-import About from '../components/NavTemp/About';
-import Contact from '../components/NavTemp/Contact';
-import InterviewHistory from '../components/HomeScreens/InterviewHistory';
 
-// import Home from '../components/Home';
-// import TempTest from '../components/Testings/TempTest';
-// import ResultScreen from '../components/Testings/ResultScreen';
-// import QuestionScreen from '../components/Testings/QuestionScreen';
+import InterviewHistory from '../components/HomeScreens/InterviewHistory';
 
 
 const Stack = createStackNavigator();
@@ -44,9 +29,7 @@ const Router = () => {
                     headerShown: false,
                 }}
             >
-                {/* <Stack.Screen name="herooo" component={Herooo} />
-                <Stack.Screen name="about" component={About} />
-                <Stack.Screen name="contact" component={Contact} /> */}
+
                 <Stack.Screen name="SignupScreen" component={SignupScreen} />
                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
                 <Stack.Screen name="Home" component={HomeScreen} />
@@ -72,24 +55,3 @@ const styles = StyleSheet.create({
 })
 
 export default Router
-
-// {/* <HomeScreen /> */}
-// {/* <HomeScreen /> */}
-// {/* <ProfilePage /> */}
-// {/* <EditProfile /> */}
-// {/* <InputForm /> */}
-// {/* <InterviewScreen /> */}
-// {/* <PremiumScreen /> */}
-// {/* <Question /> */}
-// {/* <ResultScreen1 /> */}
-// {/* <LoginScreen /> */}
-// {/* <SignupScreen /> */}
-
-// {/* <TempTest /> */}
-// {/* <VoiceTest /> */}
-
-
-// Deprecated
-// {/* <Home /> */}
-// {/* <ResultScreen /> */}
-// {/* <QuestionScreen /> */}
