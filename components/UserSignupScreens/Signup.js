@@ -2,13 +2,15 @@ import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated, Easing, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import authService from '../../appwrite/auth';
+// import authService from '../../appwrite/auth';
+import { useAuth } from '../../appwrite/AuthProvider';
 
 const Signup = ({ navigation }) => {
     const [credential, setCredential] = useState({ user: '', email: '', password: '' });
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const shakeAnimation = useRef(new Animated.Value(0)).current;
+    const { register } = useAuth();
 
     const handleChange = (name, value) => {
         setCredential({ ...credential, [name]: value });
@@ -21,13 +23,8 @@ const Signup = ({ navigation }) => {
         }
         setLoading(true);
         try {
-            const user = authService.createAccount(credential.email, credential.password, credential.user);
-            if (user) {
-                console.log(user);
-                navigation.navigate('Home');
-            } else {
-                shakeInput();
-            }
+            // const user = authService.createAccount(credential.email, credential.password, credential.user);
+            await register(credential.email, credential.password, credential.user);
         } catch (error) {
             console.log('Register failed:', error);
             shakeInput();

@@ -1,4 +1,7 @@
 import { Client, Account, ID } from 'react-native-appwrite';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const SESSION_KEY = 'user_session';
 
 export class AuthService {
     client = new Client();
@@ -9,7 +12,6 @@ export class AuthService {
             .setEndpoint('https://cloud.appwrite.io/v1')
             .setProject('668bda35000c03a1e121');
         this.account = new Account(this.client);
-
     }
 
     async createAccount(email, password, name) {
@@ -28,7 +30,9 @@ export class AuthService {
 
     async login(email, password) {
         try {
-            return await this.account.createEmailPasswordSession(email, password);
+            const session = await this.account.createEmailPasswordSession(email, password);
+            await this.saveSession(session);
+            return session;
         } catch (error) {
             throw error;
         }
@@ -38,22 +42,49 @@ export class AuthService {
         try {
             return await this.account.get();
         } catch (error) {
-            console.log("Appwrite serive :: getCurrentUser :: error", error);
+            console.log("Appwrite service :: getCurrentUser :: error", error);
         }
-
         return null;
     }
 
     async logout() {
-
         try {
             await this.account.deleteSessions();
+            await this.clearSession();
         } catch (error) {
-            console.log("Appwrite serive :: logout :: error", error);
+            console.log("Appwrite service :: logout :: error", error);
         }
+    }
+
+    async saveSession(session) {
+        await AsyncStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    }
+
+    async getSession() {
+        const sessionData = await AsyncStorage.getItem(SESSION_KEY);
+        return sessionData ? JSON.parse(sessionData) : null;
+    }
+
+    async clearSession() {
+        await AsyncStorage.removeItem(SESSION_KEY);
+    }
+
+    async checkAuth() {
+        const session = await this.getSession();
+        if (session) {
+            // Validate the session with Appwrite
+            try {
+                await this.account.getSession(session.$id);
+                return true;
+            } catch (error) {
+                console.log("Session invalid or expired");
+                await this.clearSession();
+            }
+        }
+        return false;
     }
 }
 
 const authService = new AuthService();
 
-export default authService
+export default authService;

@@ -2,13 +2,15 @@ import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated, Easing, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import authService from '../../appwrite/auth';
+// import authService from '../../appwrite/auth';
+import { useAuth } from '../../appwrite/AuthProvider';
 
 const LoginScreen = ({ navigation }) => {
     const [credential, setCredential] = useState({ email: '', password: '' });
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const shakeAnimation = useRef(new Animated.Value(0)).current;
+    const { login } = useAuth();
 
     const handleChange = (name, value) => {
         setCredential({ ...credential, [name]: value });
@@ -21,13 +23,8 @@ const LoginScreen = ({ navigation }) => {
         }
         setLoading(true);
         try {
-            const user = await authService.login(credential.email, credential.password);
-            if (user) {
-                // console.log(user);
-                navigation.navigate('Home');
-            } else {
-                shakeInput();
-            }
+            // const user = await authService.login(credential.email, credential.password);
+            await login(credential.email, credential.password);
         } catch (error) {
             console.log('Login failed:', error);
             shakeInput();

@@ -2,8 +2,10 @@ import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { FontAwesome5, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import authService from '../../appwrite/auth';
+import { useAuth } from '../../appwrite/AuthProvider';
 
 const ProfileModal = ({ visible, onClose, navigation }) => {
+    const { user, logout } = useAuth();
     const handleLogout = () => {
         console.log('Logging out...');
         authService.logout();
@@ -26,7 +28,7 @@ const ProfileModal = ({ visible, onClose, navigation }) => {
                         <Ionicons name="settings-outline" size={20} color="#333" style={styles.icon} />
                         <Text style={styles.optionText}>Settings</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.option} onPress={handleLogout}>
+                    <TouchableOpacity style={styles.option} onPress={logout}>
                         <MaterialIcons name="logout" size={20} color="#FF3B30" style={styles.icon} />
                         <Text style={[styles.optionText, { color: '#FF3B30' }]}>Logout</Text>
                     </TouchableOpacity>
