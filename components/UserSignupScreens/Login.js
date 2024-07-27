@@ -24,7 +24,8 @@ const LoginScreen = ({ navigation }) => {
         setLoading(true);
         try {
             // const user = await authService.login(credential.email, credential.password);
-            await login(credential.email, credential.password);
+            const user = await login(credential.email, credential.password);
+            console.log(user);
         } catch (error) {
             console.log('Login failed:', error);
             shakeInput();

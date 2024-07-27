@@ -29,6 +29,8 @@ import About from '../components/NavTemp/About';
 import Contact from '../components/NavTemp/Contact';
 import InterviewHistory from '../components/HomeScreens/InterviewHistory';
 import LoadingScreen from '../components/LoadingScreen';
+import SettingsScreen from '../components/Settings/SettingScreen';
+import TermsAndConditionsScreen from '../components/Settings/TermsAndConditionsScreen';
 
 // import Home from '../components/Home';
 // import TempTest from '../components/Testings/TempTest';
@@ -58,6 +60,8 @@ const AppStack = () => (
         <Stack.Screen name="PremiumScreen" component={PremiumScreen} />
         <Stack.Screen name="InterviewHistory" component={InterviewHistory} />
         <Stack.Screen name="StartInterviewButton" component={StartInterviewButton} />
+        <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+        <Stack.Screen name="TermsAndConditions" component={TermsAndConditionsScreen} />
     </Stack.Navigator>
 );
 

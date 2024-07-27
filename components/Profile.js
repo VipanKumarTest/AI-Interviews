@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from '../appwrite/AuthProvider';
+import userDetailService from '../appwrite/userDetails/userDetails';
 
-const ProfilePage = () => {
+const ProfilePage = ({ navigation }) => {
+    const { user } = useAuth();
+    const username = user?.email.split('@')[0];
+
+    useEffect(() => {
+        console.log(username);
+    }, [])
+
     return (
         <ScrollView style={styles.scrollView}>
             <LinearGradient
@@ -15,13 +24,14 @@ const ProfilePage = () => {
                         source={require('../assets/profile.png')}
                         style={styles.profileImage}
                     />
-                    <Text style={styles.name}>Rahul Kumar</Text>
-                    <Text style={styles.tagline}>Web Developer & Designer</Text>
+                    <Text style={styles.name}>{user.name}</Text>
+                    <Text style={styles.tagline}>{user?.occupation}</Text>
+                    {/* {user?.occupation} */}
                 </View>
             </LinearGradient>
 
             <View style={styles.container}>
-                <TouchableOpacity style={styles.editProfileButton}>
+                <TouchableOpacity style={styles.editProfileButton} onPress={() => navigation.navigate('EditProfileScreen', { username: username, navigation: navigation })}>
                     <Text style={styles.editProfileText}>Edit Profile</Text>
                 </TouchableOpacity>
 
@@ -30,7 +40,7 @@ const ProfilePage = () => {
                         <Ionicons name="mail-outline" size={24} color="#4c669f" />
                         <View style={styles.fieldTextContainer}>
                             <Text style={styles.fieldLabel}>Email</Text>
-                            <Text style={styles.fieldValue}>rahulkumar@example.com</Text>
+                            <Text style={styles.fieldValue}>{user.email}</Text>
                         </View>
                     </View>
 
@@ -38,7 +48,7 @@ const ProfilePage = () => {
                         <Ionicons name="link-outline" size={24} color="#4c669f" />
                         <View style={styles.fieldTextContainer}>
                             <Text style={styles.fieldLabel}>Website</Text>
-                            <Text style={styles.fieldValue}>www.rahulkumar.com</Text>
+                            <Text style={styles.fieldValue}>{user?.links}</Text>
                         </View>
                     </View>
 
@@ -47,7 +57,7 @@ const ProfilePage = () => {
                         <View style={styles.fieldTextContainer}>
                             <Text style={styles.fieldLabel}>Bio</Text>
                             <Text style={styles.fieldValue}>
-                                Passionate web developer with a keen eye for design. Creating beautiful and functional digital experiences.
+                                {user?.bio}
                             </Text>
                         </View>
                     </View>

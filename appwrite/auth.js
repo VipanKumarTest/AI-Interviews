@@ -37,6 +37,16 @@ export class AuthService {
             throw error;
         }
     }
+    // ! Impliment
+    async createAnonymousUserSession() {
+        try {
+            const session = await this.account.createAnonymousSession();
+            await this.saveSession(session);
+            return session;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     async getCurrentUser() {
         try {
@@ -82,6 +92,24 @@ export class AuthService {
             }
         }
         return false;
+    }
+
+    // ! Impliment
+    async allListSessions() {
+        try {
+            return await this.account.listSessions();
+        } catch (error) {
+            console.log("Appwrite service :: allListSessions :: error", error);
+        }
+        return null;
+    }
+    async deleteAllSessions() {
+        try {
+            return await this.account.deleteSessions();
+        } catch (error) {
+            console.log("Appwrite service :: allListSessions :: error", error);
+        }
+        return null;
     }
 }
 

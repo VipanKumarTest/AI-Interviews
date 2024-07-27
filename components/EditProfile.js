@@ -1,13 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import setUserDetailService from '../appwrite/userDetails/setUserDetails';
 
-const EditProfile = () => {
-    const [name, setName] = useState('Rahul Kumar');
-    const [email, setEmail] = useState('rahulkumar@example.com');
-    const [links, setLinks] = useState('www.rahulkumar.com');
-    const [bio, setBio] = useState('Passionate web developer with a keen eye for design. Creating beautiful and functional digital experiences.');
+const EditProfile = (props) => {
+    const [name, setName] = useState(userData?.name);
+    const [occupation, setOccupation] = useState(userData?.occupation);
+    const [email, setEmail] = useState(userData?.email);
+    const [links, setLinks] = useState(userData?.links);
+    const [bio, setBio] = useState(userData?.bio);
+    const [userData, setUserData] = useState(null)
+
+    const username = props.route.params.username;
+
+    useEffect(() => {
+        console.log("edit profile screen id: ", username);
+        // Fetch user details
+        const data = setUserDetailService.getUserDetail(username);
+        setUserData("edit profile screen data" + data);
+    }, [])
+
+    // Passionate web developer with a keen eye for design. Creating beautiful and functional digital experiences.
+
+    const handleEdit = async () => {
+        const userData = {
+            name: name,
+            username: username,
+            occupation: occupation,
+            links: links,
+            bio: bio,
+            updatedAt: new Date().toISOString(),
+        }
+
+        await setUserDetailService.setUpdateUserDetail(username, userData);
+        props.navigation.navigate('Home');
+    }
 
     return (
         <ScrollView style={styles.scrollView}>
@@ -71,7 +99,7 @@ const EditProfile = () => {
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.saveButton}>
+                <TouchableOpacity style={styles.saveButton} onPress={handleEdit}>
                     <Text style={styles.saveButtonText}>Save Profile</Text>
                 </TouchableOpacity>
             </View>

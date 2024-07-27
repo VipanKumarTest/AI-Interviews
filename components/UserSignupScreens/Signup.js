@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 // import authService from '../../appwrite/auth';
 import { useAuth } from '../../appwrite/AuthProvider';
+import setUserDetailService from '../../appwrite/userDetails/setUserDetails';
 
 const Signup = ({ navigation }) => {
     const [credential, setCredential] = useState({ user: '', email: '', password: '' });
@@ -11,6 +12,7 @@ const Signup = ({ navigation }) => {
     const [showPassword, setShowPassword] = useState(false);
     const shakeAnimation = useRef(new Animated.Value(0)).current;
     const { register } = useAuth();
+
 
     const handleChange = (name, value) => {
         setCredential({ ...credential, [name]: value });
@@ -24,7 +26,20 @@ const Signup = ({ navigation }) => {
         setLoading(true);
         try {
             // const user = authService.createAccount(credential.email, credential.password, credential.user);
-            await register(credential.email, credential.password, credential.user);
+            const user = await register(credential.email, credential.password, credential.user);
+            const username = (user.providerUid).split('@')[0];
+            const userData = {
+                id: user.$id,
+                email: credential.email,
+                name: credential.user,
+                username: username,
+                occupation: '',
+                links: '',
+                bio: '',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+            }
+            await setUserDetailService.setUserDetail(username, userData);
         } catch (error) {
             console.log('Register failed:', error);
             shakeInput();

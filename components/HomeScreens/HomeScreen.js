@@ -6,12 +6,15 @@ import StartInterviewButton from './StartInterviewButton';
 import ExploreSection from './ExploreSection';
 import InterviewHistory from './InterviewHistory';
 import BottomNavBar from './BottomNavBar';
+import { useAuth } from '../../appwrite/AuthProvider';
 
 const HomeScreen = ({ navigation }) => {
     const [search, setSearch] = useState('');
     const [activeTab, setActiveTab] = useState('Home');
+    const { user } = useAuth();
 
     const handleTabPress = (tabName, screenName) => {
+        console.log(user);
         setActiveTab(tabName);
         navigation.navigate(screenName);
     };

@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import ProfileModal from './ProfileModal';
+import { useAuth } from '../../appwrite/AuthProvider';
 
 const Header = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const { profileImage } = useAuth();
+
+    // const handleProfilePicture = () => {
+
+    // }
 
     return (
         <View style={styles.header}>
             <View style={styles.nameProfile}>
                 <Text style={styles.headerText}>AI Interview</Text>
                 <TouchableOpacity style={styles.profileButton} onPress={() => setModalVisible(true)}>
-                    <Image
-                        style={styles.profileImage}
-                        source={require('../../assets/profile.png')}
-                    />
+                    <View style={styles.profileImage}>
+                        <Text style={styles.profileText}>{profileImage()}</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
             <Text style={styles.subHeaderText}>Assistant Pro</Text>
@@ -55,8 +60,13 @@ const styles = StyleSheet.create({
     profileImage: {
         width: '100%',
         height: '100%',
-        resizeMode: 'cover',
+        backgroundColor: '#c2185b',
     },
+    profileText: {
+        color: 'white',
+        fontSize: 30,
+        textAlign: 'center',
+    }
 });
 
 export default Header;

@@ -1,30 +1,34 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { FontAwesome5, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import authService from '../../appwrite/auth';
 import { useAuth } from '../../appwrite/AuthProvider';
 
 const ProfileModal = ({ visible, onClose, navigation }) => {
     const { user, logout } = useAuth();
-    const handleLogout = () => {
-        console.log('Logging out...');
-        authService.logout();
-        navigation.navigate('LoginScreen');
+
+    const handleNavigation = (navigatedScreen, navigation) => {
+        return () => {
+            console.log(`Navigating to ${navigatedScreen}...`);
+            navigation.navigate(navigatedScreen, navigation);
+            onClose();
+        }
     }
+
     return (
         <Modal
-            animationType="fade"
+            animationType="slide"
             transparent={true}
             visible={visible}
             onRequestClose={onClose}
         >
             <TouchableOpacity style={styles.modalOverlay} onPress={onClose}>
                 <View style={styles.modalContent}>
-                    <TouchableOpacity style={styles.option}>
+                    <TouchableOpacity style={styles.option} onPress={handleNavigation('ProfilePageScreen')}>
                         <FontAwesome5 name="user" size={20} color="#333" style={styles.icon} />
                         <Text style={styles.optionText}>Profile</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.option}>
+                    <TouchableOpacity style={styles.option} onPress={handleNavigation('SettingsScreen', navigation)}>
                         <Ionicons name="settings-outline" size={20} color="#333" style={styles.icon} />
                         <Text style={styles.optionText}>Settings</Text>
                     </TouchableOpacity>

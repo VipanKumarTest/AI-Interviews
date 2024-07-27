@@ -43,12 +43,19 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    const profileImage = () => {
+        if (user) {
+            return user.name[0].toUpperCase();
+        }
+    }
+
     const value = {
         user,
         loading,
         register,
         login,
         logout,
+        profileImage
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
