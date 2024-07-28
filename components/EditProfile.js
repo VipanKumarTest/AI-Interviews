@@ -5,37 +5,54 @@ import { Ionicons } from '@expo/vector-icons';
 import setUserDetailService from '../appwrite/userDetails/setUserDetails';
 
 const EditProfile = (props) => {
-    const [name, setName] = useState(userData?.name);
-    const [occupation, setOccupation] = useState(userData?.occupation);
-    const [email, setEmail] = useState(userData?.email);
-    const [links, setLinks] = useState(userData?.links);
-    const [bio, setBio] = useState(userData?.bio);
-    const [userData, setUserData] = useState(null)
+    const [name, setName] = useState('');
+    const [occupation, setOccupation] = useState('');
+    const [email, setEmail] = useState('');
+    const [links, setLinks] = useState('');
+    const [bio, setBio] = useState('');
+    const [userData, setUserData] = useState(null);
 
     const username = props.route.params.username;
 
     useEffect(() => {
-        console.log("edit profile screen id: ", username);
-        // Fetch user details
-        const data = setUserDetailService.getUserDetail(username);
-        setUserData("edit profile screen data" + data);
-    }, [])
+        const fetchUserData = async () => {
+            try {
+                const data = await setUserDetailService.getUserDetail(username);
+                setUserData(data);
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+            }
+        };
 
-    // Passionate web developer with a keen eye for design. Creating beautiful and functional digital experiences.
+        fetchUserData();
+    }, [username]);
+
+    useEffect(() => {
+        if (userData) {
+            setName(userData.name || '');
+            setOccupation(userData.occupation || '');
+            setEmail(userData.email || '');
+            setLinks(userData.links || '');
+            setBio(userData.bio || '');
+        }
+    }, [userData]);
 
     const handleEdit = async () => {
-        const userData = {
+        const userDataDocument = {
             name: name,
-            username: username,
             occupation: occupation,
             links: links,
             bio: bio,
             updatedAt: new Date().toISOString(),
-        }
+        };
 
-        await setUserDetailService.setUpdateUserDetail(username, userData);
-        props.navigation.navigate('Home');
-    }
+        try {
+            await setUserDetailService.setUpdateUserDetail(username, userDataDocument);
+            props.navigation.navigate('ProfilePageScreen');
+        } catch (error) {
+            console.error('Error updating user details:', error);
+        }
+    };
 
     return (
         <ScrollView style={styles.scrollView}>
@@ -67,13 +84,24 @@ const EditProfile = (props) => {
                     </View>
 
                     <View style={styles.fieldContainer}>
-                        <Ionicons name="mail-outline" size={24} color="#4c669f" style={styles.icon} />
+                        <Ionicons name="briefcase-outline" size={24} color="#4c669f" style={styles.icon} />
                         <TextInput
                             style={styles.fieldInput}
+                            value={occupation}
+                            onChangeText={setOccupation}
+                            placeholder="Occupation"
+                        />
+                    </View>
+
+                    <View style={styles.fieldContainer}>
+                        <Ionicons name="mail-outline" size={24} color="#4c669f" style={styles.icon} />
+                        <TextInput
+                            style={[styles.fieldInput, styles.disabledFieldInput]}
                             value={email}
                             onChangeText={setEmail}
                             placeholder="Email"
                             keyboardType="email-address"
+                            editable={false}
                         />
                     </View>
 
@@ -105,11 +133,12 @@ const EditProfile = (props) => {
             </View>
         </ScrollView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     scrollView: {
         flex: 1,
+        bottom: 40,
         backgroundColor: '#f0f2f5',
     },
     headerGradient: {
@@ -163,6 +192,12 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 16,
         color: '#333',
+        paddingVertical: 10,
+    },
+    disabledFieldInput: {
+        flex: 1,
+        fontSize: 16,
+        color: '#777',
         paddingVertical: 10,
     },
     bioInput: {

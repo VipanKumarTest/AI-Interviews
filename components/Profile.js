@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,11 +7,21 @@ import userDetailService from '../appwrite/userDetails/userDetails';
 
 const ProfilePage = ({ navigation }) => {
     const { user } = useAuth();
+    const [userData, setUserData] = useState(null);
     const username = user?.email.split('@')[0];
 
     useEffect(() => {
-        console.log(username);
-    }, [])
+        const fetchUserData = async () => {
+            try {
+                const data = await userDetailService.getUserDetails(username);
+                setUserData(data);
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+            }
+        };
+
+        fetchUserData();
+    }, [userData]);
 
     return (
         <ScrollView style={styles.scrollView}>
@@ -24,9 +34,8 @@ const ProfilePage = ({ navigation }) => {
                         source={require('../assets/profile.png')}
                         style={styles.profileImage}
                     />
-                    <Text style={styles.name}>{user.name}</Text>
-                    <Text style={styles.tagline}>{user?.occupation}</Text>
-                    {/* {user?.occupation} */}
+                    <Text style={styles.name}>{userData?.name}</Text>
+                    <Text style={styles.tagline}>{userData?.occupation}</Text>
                 </View>
             </LinearGradient>
 
@@ -37,10 +46,18 @@ const ProfilePage = ({ navigation }) => {
 
                 <View style={styles.infoCard}>
                     <View style={styles.fieldContainer}>
+                        <Ionicons name="person-outline" size={24} color="#4c669f" />
+                        <View style={styles.fieldTextContainer}>
+                            <Text style={styles.fieldLabel}>User Name</Text>
+                            <Text style={styles.fieldValue}>{userData?.username}</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.fieldContainer}>
                         <Ionicons name="mail-outline" size={24} color="#4c669f" />
                         <View style={styles.fieldTextContainer}>
                             <Text style={styles.fieldLabel}>Email</Text>
-                            <Text style={styles.fieldValue}>{user.email}</Text>
+                            <Text style={styles.fieldValue}>{userData?.email}</Text>
                         </View>
                     </View>
 
@@ -48,7 +65,7 @@ const ProfilePage = ({ navigation }) => {
                         <Ionicons name="link-outline" size={24} color="#4c669f" />
                         <View style={styles.fieldTextContainer}>
                             <Text style={styles.fieldLabel}>Website</Text>
-                            <Text style={styles.fieldValue}>{user?.links}</Text>
+                            <Text style={styles.fieldValue}>{userData?.links}</Text>
                         </View>
                     </View>
 
@@ -56,9 +73,7 @@ const ProfilePage = ({ navigation }) => {
                         <Ionicons name="information-circle-outline" size={24} color="#4c669f" />
                         <View style={styles.fieldTextContainer}>
                             <Text style={styles.fieldLabel}>Bio</Text>
-                            <Text style={styles.fieldValue}>
-                                {user?.bio}
-                            </Text>
+                            <Text style={styles.fieldValue}>{userData?.bio}</Text>
                         </View>
                     </View>
                 </View>
