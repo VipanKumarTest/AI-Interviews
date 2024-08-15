@@ -17,6 +17,6 @@ class GeminiAI {
     }
 }
 
-const apiKey = 'AIzaSyB5qPCCPUAv6zBXhN4_o8KnDFp-1axUf3E';
+const apiKey = 'Your ID Here';
 const geminiAI = new GeminiAI(apiKey);
 export default geminiAI;
