@@ -5,11 +5,11 @@ export class Service {
     databases;
     bucket;
 
-    // Constants for project and collection IDs
-    PROJECT_ID = '668bda35000c03a1e121';
-    DATABASE_ID = '669f62ff003bb45cd1d3';
-    COLLECTION_ID = '669f6325000fe359d491';
-    BUCKET_ID = '669f68b0000222a9e998';
+    // Enter your ID's
+    PROJECT_ID = '-------------';
+    DATABASE_ID = '-------------';
+    COLLECTION_ID = '--------------';
+    BUCKET_ID = '----------------------';
 
     constructor() {
         this.client
