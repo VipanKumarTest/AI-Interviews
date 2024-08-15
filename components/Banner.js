@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import image from '../assets/subscription-banner.jpg'
 
 const Banner = () => {

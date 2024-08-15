@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import Header from './Header';
 import SearchBar from './SearchBar';
 import StartInterviewButton from './StartInterviewButton';

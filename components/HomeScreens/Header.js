@@ -7,10 +7,6 @@ const Header = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const { profileImage } = useAuth();
 
-    // const handleProfilePicture = () => {
-
-    // }
-
     return (
         <View style={styles.header}>
             <View style={styles.nameProfile}>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { CameraView, useCameraPermissions } from 'expo-camera';

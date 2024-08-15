@@ -24,7 +24,7 @@ const ProfileModal = ({ visible, onClose, navigation }) => {
         >
             <TouchableOpacity style={styles.modalOverlay} onPress={onClose}>
                 <View style={styles.modalContent}>
-                    <TouchableOpacity style={styles.option} onPress={handleNavigation('ProfilePageScreen')}>
+                    <TouchableOpacity style={styles.option} onPress={handleNavigation('ProfilePageScreen', navigation)}>
                         <FontAwesome5 name="user" size={20} color="#333" style={styles.icon} />
                         <Text style={styles.optionText}>Profile</Text>
                     </TouchableOpacity>

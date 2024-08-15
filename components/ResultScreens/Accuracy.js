@@ -7,7 +7,13 @@ const Accuracy = ({ accuracy }) => {
 
     React.useEffect(() => {
         Animated.timing(animatedValue, {
-            toValue: accuracy,
+            toValue: <Animated.Text style={styles.score}>
+                {animatedValue.interpolate({
+                    inputRange: [0, 10],
+                    outputRange: ['6', '10.0'],
+                })}
+                <Text key="totalScore" style={styles.totalScore}> / 10</Text>
+            </Animated.Text>,
             duration: 1000,
             useNativeDriver: false,
         }).start();
@@ -31,7 +37,7 @@ const Accuracy = ({ accuracy }) => {
                         inputRange: [0, 10],
                         outputRange: ['6', '10.0'],
                     })}
-                    <Text style={styles.totalScore}> / 10</Text>
+                    <Text key="totalScore" style={styles.totalScore}> / 10</Text>
                 </Animated.Text>
             </View>
         </View>

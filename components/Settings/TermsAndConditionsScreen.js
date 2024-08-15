@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const TermsAndConditionsScreen = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Animated, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { LinearGradient } from 'expo-linear-gradient';
 

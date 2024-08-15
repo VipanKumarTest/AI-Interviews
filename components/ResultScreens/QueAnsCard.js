@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import AccordionItem from './AccordionItem';
 
-const QueAnsCard = ({ title, color, DATA }) => {
+const QueAnsCard = ({ title, color, DATA, passkey }) => {
     // console.log(DATA);
     return (
         <View style={styles.container}>
@@ -11,7 +11,7 @@ const QueAnsCard = ({ title, color, DATA }) => {
                 data={DATA}
                 renderItem={({ item, index }) => (
                     <AccordionItem
-                        key={index}
+                        key={index + passkey}
                         item={item}
                     />
                 )}

@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Share } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Share } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-
+import { useAuth } from '../../appwrite/AuthProvider';
 
 const SettingsScreen = ({ navigation }) => {
+    const { user, logout } = useAuth();
 
     const handleDeleteAccount = async () => {
         // await logout();

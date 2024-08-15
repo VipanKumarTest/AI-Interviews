@@ -1,29 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView, Animated } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { Audio } from 'expo-av';
-import * as Speech from 'expo-speech';
+// import { Audio } from 'expo-av';
+// import * as Speech from 'expo-speech';
 
 
 const InterviewScreen = () => {
     const [intStart, setIntStart] = useState(false);
     const [facing, setFacing] = useState('front');
     const [permission, requestPermission] = useCameraPermissions();
-    const [recording, setRecording] = useState();
-    const [audioPermission, requestAudioPermission] = Audio.usePermissions();
+    // const [recording, setRecording] = useState();
+    // const [audioPermission, requestAudioPermission] = Audio.usePermissions();
     const [recognizedText, setRecognizedText] = useState('');
     const [animation] = useState(new Animated.Value(0));
 
-    useEffect(() => {
-        return () => {
-            stopSpeechRecognition();
-            if (recording) {
-                stopRecording();
-            }
-        };
-    }, []);
+    // useEffect(() => {
+    // return () => {
+    // stopSpeechRecognition();
+    // if (recording) {
+    // stopRecording();
+    // }
+    // };
+    // }, []);
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -38,60 +39,60 @@ const InterviewScreen = () => {
         outputRange: [1, 0.95],
     });
 
-    async function startRecording() {
-        try {
-            if (audioPermission.status !== 'granted') {
-                console.log('Requesting permission..');
-                await requestAudioPermission();
-            }
+    // async function startRecording() {
+    //     try {
+    //         if (audioPermission.status !== 'granted') {
+    //             console.log('Requesting permission..');
+    //             await requestAudioPermission();
+    //         }
 
-            console.log('Starting recording..');
-            const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
-            setRecording(recording);
-            console.log('Recording started');
-        } catch (err) {
-            console.error('Failed to start recording', err);
-        }
-    }
+    //         console.log('Starting recording..');
+    //         const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
+    //         setRecording(recording);
+    //         console.log('Recording started');
+    //     } catch (err) {
+    //         console.error('Failed to start recording', err);
+    //     }
+    // }
 
-    async function stopRecording() {
-        console.log('Stopping recording..');
-        setRecording(undefined);
-        await recording.stopAndUnloadAsync();
+    // async function stopRecording() {
+    //     console.log('Stopping recording..');
+    //     setRecording(undefined);
+    //     await recording.stopAndUnloadAsync();
 
-        const uri = recording.getURI();
-        console.log('Recording stopped and stored at', uri);
-        console.log('object');
-        navigation.navigate('ResultScreen');
-    }
+    //     const uri = recording.getURI();
+    //     console.log('Recording stopped and stored at', uri);
+    //     console.log('object');
+    //     navigation.navigate('ResultScreen');
+    // }
 
-    async function startSpeechRecognition() {
-        try {
-            await Audio.setAudioModeAsync({
-                allowsRecordingIOS: true,
-                playsInSilentModeIOS: true,
-            });
+    // async function startSpeechRecognition() {
+    //     try {
+    //         await Audio.setAudioModeAsync({
+    //             allowsRecordingIOS: true,
+    //             playsInSilentModeIOS: true,
+    //         });
 
-            // Start listening for speech
-            await Speech.start('en-US', {
-                onSpeechResults: (result) => {
-                    if (result.value && result.value.length > 0) {
-                        setRecognizedText(result.value[0]);
-                    }
-                },
-                onSpeechError: (error) => {
-                    console.error('Speech recognition error:', error);
-                }
-            });
-        } catch (err) {
-            console.error('Failed to start speech recognition', err);
-        }
-    }
+    //         // Start listening for speech
+    //         await Speech.start('en-US', {
+    //             onSpeechResults: (result) => {
+    //                 if (result.value && result.value.length > 0) {
+    //                     setRecognizedText(result.value[0]);
+    //                 }
+    //             },
+    //             onSpeechError: (error) => {
+    //                 console.error('Speech recognition error:', error);
+    //             }
+    //         });
+    //     } catch (err) {
+    //         console.error('Failed to start speech recognition', err);
+    //     }
+    // }
 
-    function stopSpeechRecognition() {
-        Speech.stop();
-        setRecognizedText('');
-    }
+    // function stopSpeechRecognition() {
+    //     Speech.stop();
+    //     setRecognizedText('');
+    // }
 
     if (!permission) {
         // Camera permissions are still loading.
@@ -120,11 +121,11 @@ const InterviewScreen = () => {
 
     const toggleMic = async () => {
         setIntStart(!intStart);
-        if (intStart) {
-            stopSpeechRecognition();
-        } else {
-            startSpeechRecognition();
-        }
+        // if (intStart) {
+        // stopSpeechRecognition();
+        // } else {
+        // startSpeechRecognition();
+        // }
     };
 
     return (

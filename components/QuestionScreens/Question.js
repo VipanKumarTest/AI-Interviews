@@ -66,8 +66,10 @@ const QuestionCard = ({ question, index, onPress, navigation }) => {
     );
 };
 
-const QuestionScreen = ({ navigation }) => {
+const QuestionScreen = (props) => {
     const [answeredCount, setAnsweredCount] = useState(0);
+    const { navigation } = props;
+    // console.log(props);
 
     const handleQuestionPress = () => {
         setAnsweredCount(prev => prev + 1);

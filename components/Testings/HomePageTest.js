@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, Pressable, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, Pressable, TextInput } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';

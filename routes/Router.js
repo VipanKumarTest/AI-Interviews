@@ -10,7 +10,7 @@ import { AuthProvider, useAuth } from '../appwrite/AuthProvider';
 
 // Screens
 import PremiumScreen from '../components/PremiumScreen';
-import VoiceTest from '../components/Testing2';
+// import VoiceTest from '../components/Testing2';
 // import InterviewScreen from '../components/Testing';
 import ProfilePage from '../components/Profile';
 import EditProfile from '../components/EditProfile';
@@ -68,6 +68,7 @@ const AppStack = () => (
 
 const RootNavigator = () => {
     const { user, loading } = useAuth();
+    console.log(user);
 
     if (loading) {
         return <LoadingScreen />
@@ -87,36 +88,6 @@ const Router = () => {
         </AuthProvider>
     );
 };
-
-// const Router = () => {
-//     return (
-//         <NavigationContainer>
-//             <Stack.Navigator
-//                 screenOptions={{
-//                     headerShown: false,
-//                 }}
-//             >
-//                 {/* <Stack.Screen name="herooo" component={Herooo} />
-//                 <Stack.Screen name="about" component={About} />
-//                 <Stack.Screen name="contact" component={Contact} /> */}
-//                 <Stack.Screen name="SignupScreen" component={SignupScreen} />
-//                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
-//                 <Stack.Screen name="Home" component={HomeScreen} />
-//                 <Stack.Screen name="InputFormScreen" component={InputForm} />
-//                 <Stack.Screen name="QuestionsScreen" component={Question} />
-//                 <Stack.Screen name="InterviewScreen" component={InterviewScreen} />
-//                 <Stack.Screen name="ResultScreen" component={ResultScreen1} />
-//                 <Stack.Screen name="EditProfileScreen" component={EditProfile} />
-//                 <Stack.Screen name="ProfilePageScreen" component={ProfilePage} />
-//                 <Stack.Screen name="PremiumScreen" component={PremiumScreen} />
-//                 <Stack.Screen name="InterviewHistory" component={InterviewHistory} />
-
-//                 <Stack.Screen name="StartInterviewButton" component={StartInterviewButton} />
-//             </Stack.Navigator>
-//         </NavigationContainer >
-//     )
-// }
-
 
 
 export default Router

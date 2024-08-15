@@ -72,7 +72,7 @@ const Signup = ({ navigation }) => {
                         <MaterialCommunityIcons name="account-outline" size={24} color="#666" style={styles.icon} />
                         <TextInput
                             style={styles.input}
-                            placeholder="User"
+                            placeholder="User name"
                             placeholderTextColor="#999"
                             onChangeText={(text) => handleChange('user', text)}
                             value={credential.user}

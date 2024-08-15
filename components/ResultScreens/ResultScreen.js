@@ -1,5 +1,6 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import QueAnsCard from './QueAnsCard';
 import Accuracy from './Accuracy';
@@ -47,8 +48,8 @@ const ResultScreen1 = () => {
                 <ScrollView contentContainerStyle={styles.scrollContent}>
                     <Text style={styles.headerText}>Your Results</Text>
                     <Accuracy accuracy={10} />
-                    <QueAnsCard title={'AI-Generated Answers'} color={'#4CAF50'} DATA={DATA} />
-                    <QueAnsCard title={'Your Answers'} color={'#FF5722'} DATA={DATA} />
+                    <QueAnsCard passkey={1} title={'AI-Generated Answers'} color={'#4CAF50'} DATA={DATA} />
+                    <QueAnsCard passkey={2} title={'Your Answers'} color={'#FF5722'} DATA={DATA} />
                 </ScrollView>
             </LinearGradient>
         </SafeAreaView>
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#fff',
         textShadowColor: 'rgba(0, 0, 0, 0.75)',
-        textShadowOffset: {width: -1, height: 1},
+        textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 10
     },
 });

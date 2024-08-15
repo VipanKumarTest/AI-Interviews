@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-virtualized-view';
 import TopBar from './Topbar'
 import Banner from './Banner';
 import InterviewHistory from './InterviewHistory';

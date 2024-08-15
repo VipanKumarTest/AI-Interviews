@@ -3,6 +3,9 @@ import { View, TextInput, TouchableOpacity, Text, StyleSheet, Animated, ScrollVi
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import TagPicker from './TagPicker';
+import Loader from './Loaders/Loader';
+import InterviewScript from './RawData/InterviewScript';
+import geminiAI from '../gemini/config';
 
 const InputForm = ({ navigation }) => {
     const [jobRole, setJobRole] = useState('');
@@ -15,12 +18,29 @@ const InputForm = ({ navigation }) => {
         jobDescription: false,
         yearsOfExperience: false,
     });
+    const [geminiData, setGeminiData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const scrollViewRef = useRef();
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = async () => {
         console.log('Submitted:', { jobRole, jobDescription, yearsOfExperience, selectedColor });
-        // Add your form submission logic here
+        const interviewScriptData = InterviewScript(jobRole, jobDescription, yearsOfExperience);
+        setIsLoading(true);
+        try {
+            const data = await geminiAI.run(interviewScriptData);
+            const stringifiedData = JSON.stringify(data);
+            const parsedData = JSON.parse(stringifiedData);
+            setGeminiData(parsedData);
+            console.log(geminiData);
+        }
+        catch (err) {
+            console.log(err);
+        }
+        finally {
+            setIsLoading(false);
+            navigation.navigate('QuestionsScreen', { geminiData: geminiData });
+        }
     };
 
     const animateButtonPress = () => {
@@ -36,7 +56,6 @@ const InputForm = ({ navigation }) => {
                 useNativeDriver: true,
             }),
         ]).start(handleFormSubmit);
-        navigation.navigate('QuestionsScreen')
     };
 
     const handleFocus = (field) => {
@@ -56,11 +75,12 @@ const InputForm = ({ navigation }) => {
             <ScrollView ref={scrollViewRef} contentContainerStyle={styles.scrollContent}>
                 <Text style={styles.title}>Create Job Posting</Text>
 
+                <Text style={styles.label}>Job Role</Text>
                 <View style={[styles.inputContainer, isFocused.jobRole && styles.inputContainerFocused]}>
                     <Ionicons name="briefcase-outline" size={24} color="#4c669f" style={styles.icon} />
                     <TextInput
                         style={styles.input}
-                        placeholder="Job Role"
+                        placeholder="Ex. Full-Stack Developer"
                         value={jobRole}
                         onChangeText={setJobRole}
                         onFocus={() => handleFocus('jobRole')}
@@ -68,11 +88,12 @@ const InputForm = ({ navigation }) => {
                     />
                 </View>
 
+                <Text style={styles.label}>Job Description</Text>
                 <View style={[styles.inputContainer, isFocused.jobDescription && styles.inputContainerFocused]}>
                     <Ionicons name="document-text-outline" size={24} color="#4c669f" style={styles.icon} />
                     <TextInput
                         style={[styles.input, styles.textArea]}
-                        placeholder="Job Description"
+                        placeholder="Ex. React js, Devops, MYSQL"
                         multiline
                         numberOfLines={4}
                         value={jobDescription}
@@ -82,11 +103,12 @@ const InputForm = ({ navigation }) => {
                     />
                 </View>
 
+                <Text style={styles.label}>Years of Experience</Text>
                 <View style={[styles.inputContainer, isFocused.yearsOfExperience && styles.inputContainerFocused]}>
                     <Ionicons name="time-outline" size={24} color="#4c669f" style={styles.icon} />
                     <TextInput
                         style={styles.input}
-                        placeholder="Years of Experience"
+                        placeholder="Ex. 2"
                         keyboardType="numeric"
                         value={yearsOfExperience}
                         onChangeText={setYearsOfExperience}
@@ -108,6 +130,7 @@ const InputForm = ({ navigation }) => {
                     </TouchableOpacity>
                 </Animated.View>
             </ScrollView>
+            {isLoading && <Loader />}
         </KeyboardAvoidingView>
     );
 };
@@ -126,6 +149,11 @@ const styles = StyleSheet.create({
         color: '#4c669f',
         marginBottom: 20,
         textAlign: 'center',
+    },
+    label: {
+        marginBottom: 5,
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     inputContainer: {
         flexDirection: 'row',
@@ -154,7 +182,7 @@ const styles = StyleSheet.create({
     },
     textArea: {
         height: 100,
-        textAlignVertical: 'top',
+        textAlignVertical: 'center',
     },
     submitButton: {
         padding: 15,

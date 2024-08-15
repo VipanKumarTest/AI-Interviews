@@ -1,4 +1,5 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import React, { useState } from 'react';
 
 const DATA = [
