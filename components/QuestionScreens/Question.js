@@ -64,17 +64,22 @@ const QuestionScreen = ({ navigation, route }) => {
                 const parsedData = JSON.parse(route.params.geminiData);
                 if (Array.isArray(parsedData)) {
                     setQuestions(parsedData);
+                } else if (typeof parsedData === 'object') {
+                    setQuestions([parsedData]);
                 } else {
-                    console.error("Parsed data is not an array:", parsedData);
+                    console.error("Parsed data is not an array or object:", parsedData);
                 }
             } catch (error) {
                 console.error("Error parsing geminiData:", error);
             }
+        } else {
+            console.log("No geminiData in route params");
         }
         setIsLoading(false);
     }, [route.params]);
 
     const handleNavigation = () => {
+        const a = 0;
         navigation.navigate('ResultScreen', { totalQuestions: questions.length, answeredCount: answeredCount, questions: questions });
     };
 
@@ -114,15 +119,15 @@ const QuestionScreen = ({ navigation, route }) => {
                         navigation={navigation}
                     />
                 ))}
+                <TouchableOpacity style={styles.responseContainer} onPress={handleNavigation}>
+                    <LinearGradient
+                        colors={['#4CAF50', '#4CAF50', '#4CAF50']}
+                        style={styles.submitButton}
+                    >
+                        <Text style={styles.submitButtonText}>Submit your response</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
             </ScrollView>
-            <TouchableOpacity onPress={handleNavigation}>
-                <LinearGradient
-                    colors={['#4c669f', '#3b5998', '#192f6a']}
-                    style={styles.submitButton}
-                >
-                    <Text style={styles.submitButtonText}>Submit your response</Text>
-                </LinearGradient>
-            </TouchableOpacity>
         </View>
     );
 };
@@ -132,7 +137,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
         paddingTop: 50,
-        marginBottom: 30
+        marginBottom: 30,
+        position: 'relative',
     },
     header: {
         fontSize: 28,
@@ -197,7 +203,14 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 25,
         alignItems: 'center',
-        marginTop: 20,
+        width: '70%',
+        alignSelf: 'center',
+    },
+    responseContainer: {
+        position: 'fixed',
+        bottom: 3,
+        width: '100%',
+        padding: 3
     },
     submitButtonText: {
         color: '#fff',

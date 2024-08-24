@@ -8,9 +8,9 @@ import InterviewScript from './RawData/InterviewScript';
 import geminiAI from '../gemini/config';
 
 const InputForm = ({ navigation }) => {
-    const [jobRole, setJobRole] = useState('');
-    const [jobDescription, setJobDescription] = useState('');
-    const [yearsOfExperience, setYearsOfExperience] = useState('');
+    const [jobRole, setJobRole] = useState('Developer');
+    const [jobDescription, setJobDescription] = useState('React');
+    const [yearsOfExperience, setYearsOfExperience] = useState('1');
     const [selectedColor, setSelectedColor] = useState('');
     const [scaleValue] = useState(new Animated.Value(1));
     const [isFocused, setIsFocused] = useState({
@@ -31,7 +31,6 @@ const InputForm = ({ navigation }) => {
             const data = await geminiAI.run(interviewScriptData);
             const pureData = data.replace('```json', '').replace('```', '')
             const parsedData = JSON.parse(pureData);
-            console.log('pureData => ', pureData);
             console.log('parsedData => ', parsedData);
 
             const geminiDataList = parsedData.map(item => ({
@@ -41,7 +40,7 @@ const InputForm = ({ navigation }) => {
 
             setGeminiData(geminiDataList);
             console.log(geminiDataList);
-            navigation.navigate('QuestionsScreen', { geminiData: geminiDataList });
+            navigation.navigate('QuestionsScreen', { geminiData: JSON.stringify(geminiDataList) });
         }
         catch (err) {
             console.log(err);

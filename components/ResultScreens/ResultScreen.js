@@ -38,7 +38,11 @@ const DATA = [
     },
 ];
 
-const ResultScreen1 = () => {
+const ResultScreen1 = (props) => {
+    console.log('props => ', props);
+    const answeredCount = props.route.params.answeredCount;
+    const totalQuestions = props.route.params.totalQuestions;
+    const questions = props.route.params.questions;
     return (
         <SafeAreaView style={styles.container}>
             <LinearGradient
@@ -47,9 +51,9 @@ const ResultScreen1 = () => {
             >
                 <ScrollView contentContainerStyle={styles.scrollContent}>
                     <Text style={styles.headerText}>Your Results</Text>
-                    <Accuracy accuracy={10} />
-                    <QueAnsCard passkey={1} title={'AI-Generated Answers'} color={'#4CAF50'} DATA={DATA} />
-                    <QueAnsCard passkey={2} title={'Your Answers'} color={'#FF5722'} DATA={DATA} />
+                    <Accuracy answeredCount={answeredCount} totalQuestions={totalQuestions} />
+                    <QueAnsCard passkey={1} title={'AI-Generated Answers'} color={'#4CAF50'} DATA={questions} />
+                    <QueAnsCard passkey={2} title={'Your Answers'} color={'#FF5722'} DATA={questions} />
                 </ScrollView>
             </LinearGradient>
         </SafeAreaView>

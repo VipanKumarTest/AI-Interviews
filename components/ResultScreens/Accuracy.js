@@ -1,43 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-const Accuracy = ({ accuracy }) => {
+const Accuracy = ({ answeredCount, totalQuestions }) => {
     const animatedValue = new Animated.Value(0);
 
-    React.useEffect(() => {
+    useEffect(() => {
         Animated.timing(animatedValue, {
-            toValue: <Animated.Text style={styles.score}>
-                {animatedValue.interpolate({
-                    inputRange: [0, 10],
-                    outputRange: ['6', '10.0'],
-                })}
-                <Text key="totalScore" style={styles.totalScore}> / 10</Text>
-            </Animated.Text>,
+            toValue: answeredCount,
             duration: 1000,
             useNativeDriver: false,
         }).start();
-    }, []);
+    }, [answeredCount]);
 
-    const width = animatedValue.interpolate({
-        inputRange: [0, 10],
-        outputRange: ['0%', '60%'],
+    const progressWidth = animatedValue.interpolate({
+        inputRange: [0, totalQuestions],
+        outputRange: ['0%', '100%'],
+    });
+
+    const animatedScore = animatedValue.interpolate({
+        inputRange: [0, answeredCount],
+        outputRange: ['0', `${answeredCount}`],
     });
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Accuracy</Text>
             <View style={styles.barContainer}>
-                <Animated.View style={[styles.bar, { width }]} />
+                <Animated.View style={[styles.bar, { width: progressWidth }]} />
             </View>
             <View style={styles.scoreContainer}>
                 <AntDesign name="star" size={24} color="#FFD700" />
                 <Animated.Text style={styles.score}>
-                    {animatedValue.interpolate({
-                        inputRange: [0, 10],
-                        outputRange: ['6', '10.0'],
-                    })}
-                    <Text key="totalScore" style={styles.totalScore}> / 10</Text>
+                    {answeredCount}
+                    <Text style={styles.totalScore}> / {totalQuestions}</Text>
                 </Animated.Text>
             </View>
         </View>
