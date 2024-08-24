@@ -37,6 +37,25 @@ export class AuthService {
             throw error;
         }
     }
+
+    async generateOtp(email, url) {
+        try {
+            const response = await this.account.createRecovery(email, url);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async verifyOtp(email, code, newPassword, re_newPassword) {
+        try {
+            const response = await this.account.updateRecovery(email, code, newPassword, re_newPassword);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // ! Impliment
     async createAnonymousUserSession() {
         try {

@@ -116,8 +116,12 @@ const Signup = ({ navigation }) => {
                             <MaterialCommunityIcons name="login" size={24} color="white" />
                         </LinearGradient>
                     </TouchableOpacity>
+                    <TouchableOpacity style={styles.miniLogin} >
+                        <Text style={[styles.miniLoginText, { color: '#009688' }]}></Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.miniLogin} onPress={() => navigation.navigate('LoginScreen')}>
-                        <Text style={styles.miniLoginText}>Already have an account? Sign in</Text>
+                        <Text style={styles.miniLoginText}>Already have an account? </Text>
+                        <Text style={[styles.miniLoginText, { color: '#009688' }]}>Sign in</Text>
                     </TouchableOpacity>
                 </Animated.View>
             </LinearGradient>
@@ -185,6 +189,8 @@ const styles = StyleSheet.create({
     miniLogin: {
         width: '100%',
         alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
     miniLoginText: {
         color: '#1D4ED8',

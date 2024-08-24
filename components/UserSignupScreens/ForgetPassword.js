@@ -1,39 +1,35 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated, Easing, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-// import authService from '../../appwrite/auth';
 import { useAuth } from '../../appwrite/AuthProvider';
 
-const LoginScreen = ({ navigation }) => {
-    const [credential, setCredential] = useState({ email: '', password: '' });
+const ForgotPassword = ({ navigation }) => {
+    const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
     const shakeAnimation = useRef(new Animated.Value(0)).current;
-    const { login } = useAuth();
+    const { generateOtpService } = useAuth();
+    const url = 'cloud.appwrite.io'
 
-    const handleChange = (name, value) => {
-        setCredential({ ...credential, [name]: value });
-    };
-
-    const signInWithEmail = async () => {
-        if (!credential.email || !credential.password) {
+    const handleSendOTP = async () => {
+        if (!email) {
             shakeInput();
             return;
         }
         setLoading(true);
         try {
-            // const user = await authService.login(credential.email, credential.password);
-            const user = await login(credential.email, credential.password);
-            console.log(user);
+            const data = await generateOtpService(email, url);
+            console.log('Forget Pass -> ', data);
+            navigation.navigate('VerifyOTPScreen', { email: email });
+            console.log('Sending OTP to:', email);
+            // Navigate to OTP verification screen or show success message
         } catch (error) {
-            console.log('Login failed:', error);
+            console.log('Failed to send OTP:', error);
             shakeInput();
         } finally {
             setLoading(false);
         }
     };
-
 
     const shakeInput = () => {
         Animated.sequence([
@@ -54,50 +50,32 @@ const LoginScreen = ({ navigation }) => {
                 style={styles.gradient}
             >
                 <Animated.View style={[styles.formContainer, { transform: [{ translateX: shakeAnimation }] }]}>
-                    <Text style={styles.signinText}>Welcome Back</Text>
+                    <Text style={styles.headerText}>Forgot Password</Text>
                     <View style={styles.inputContainer}>
                         <MaterialCommunityIcons name="email-outline" size={24} color="#666" style={styles.icon} />
                         <TextInput
                             style={styles.input}
-                            placeholder="Email"
+                            placeholder="Enter your email"
                             placeholderTextColor="#999"
-                            onChangeText={(text) => handleChange('email', text)}
-                            value={credential.email}
+                            onChangeText={setEmail}
+                            value={email}
                             keyboardType="email-address"
                             autoCapitalize="none"
                         />
                     </View>
-                    <View style={styles.inputContainer}>
-                        <MaterialCommunityIcons name="lock-outline" size={24} color="#666" style={styles.icon} />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Password"
-                            placeholderTextColor="#999"
-                            onChangeText={(text) => handleChange('password', text)}
-                            value={credential.password}
-                            secureTextEntry={!showPassword}
-                        />
-                        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                            <MaterialCommunityIcons name={showPassword ? "eye-off" : "eye"} size={24} color="#666" />
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity style={styles.continueButton} onPress={signInWithEmail}>
+                    <TouchableOpacity style={styles.sendOTPButton} onPress={handleSendOTP}>
                         <LinearGradient
                             colors={['#4287f5', '#3b5998']}
                             start={{ x: 0, y: 0 }}
                             end={{ x: 1, y: 0 }}
                             style={styles.buttonGradient}
                         >
-                            <Text style={styles.continueButtonText}>Login</Text>
-                            <MaterialCommunityIcons name="login" size={24} color="white" />
+                            <Text style={styles.sendOTPButtonText}>Send OTP</Text>
+                            <MaterialCommunityIcons name="email-send" size={24} color="white" />
                         </LinearGradient>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.miniLogin} onPress={() => navigation.navigate('SignupScreen')}>
-                        <Text style={styles.miniLoginText}>Don't have an account? </Text>
-                        <Text style={[styles.miniLoginText, { color: '#009688' }]}>Sign up</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.miniLogin} onPress={() => navigation.navigate('ForgotPassword')}>
-                        <Text style={[styles.miniLoginText, { color: '#ff1744' }]}>Forget Password</Text>
+                    <TouchableOpacity style={styles.backToLogin} onPress={() => navigation.goBack()}>
+                        <Text style={styles.backToLoginText}>Back to Login</Text>
                     </TouchableOpacity>
                 </Animated.View>
             </LinearGradient>
@@ -121,7 +99,7 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
     },
-    signinText: {
+    headerText: {
         fontSize: 30,
         fontWeight: '700',
         color: '#333',
@@ -146,34 +124,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
     },
-    signupButton: {
-        width: '100%',
-        height: 50,
-        backgroundColor: '#34D399',
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        marginBottom: 20,
-    },
-    signupText: {
-        color: 'white',
-        fontSize: 18,
-        fontWeight: '600',
-        marginRight: 10,
-    },
-    miniLogin: {
-        width: '100%',
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
-    miniLoginText: {
-        color: '#1D4ED8',
-        fontSize: 16,
-        fontWeight: '500',
-    },
-    continueButton: {
+    sendOTPButton: {
         width: '100%',
         marginBottom: 20,
     },
@@ -186,11 +137,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         columnGap: 5
     },
-    continueButtonText: {
+    sendOTPButtonText: {
         fontSize: 18,
         color: '#ffffff',
         fontWeight: 'bold',
     },
+    backToLogin: {
+        width: '100%',
+        alignItems: 'center',
+    },
+    backToLoginText: {
+        color: '#1D4ED8',
+        fontSize: 16,
+        fontWeight: '500',
+    },
 });
 
-export default LoginScreen;
+export default ForgotPassword;

@@ -29,17 +29,25 @@ const InputForm = ({ navigation }) => {
         setIsLoading(true);
         try {
             const data = await geminiAI.run(interviewScriptData);
-            const stringifiedData = JSON.stringify(data);
-            const parsedData = JSON.parse(stringifiedData);
-            setGeminiData(parsedData);
-            console.log(geminiData);
+            const pureData = data.replace('```json', '').replace('```', '')
+            const parsedData = JSON.parse(pureData);
+            console.log('pureData => ', pureData);
+            console.log('parsedData => ', parsedData);
+
+            const geminiDataList = parsedData.map(item => ({
+                question: item.question,
+                answer: item.answer
+            }));
+
+            setGeminiData(geminiDataList);
+            console.log(geminiDataList);
+            navigation.navigate('QuestionsScreen', { geminiData: geminiDataList });
         }
         catch (err) {
             console.log(err);
         }
         finally {
             setIsLoading(false);
-            navigation.navigate('QuestionsScreen', { geminiData: geminiData });
         }
     };
 

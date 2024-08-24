@@ -31,6 +31,8 @@ import InterviewHistory from '../components/HomeScreens/InterviewHistory';
 import LoadingScreen from '../components/LoadingScreen';
 import SettingsScreen from '../components/Settings/SettingScreen';
 import TermsAndConditionsScreen from '../components/Settings/TermsAndConditionsScreen';
+import ForgotPassword from '../components/UserSignupScreens/ForgetPassword';
+import VerifyOTPScreen from '../components/UserSignupScreens/VarifyOTP';
 
 // import Home from '../components/Home';
 // import TempTest from '../components/Testings/TempTest';
@@ -45,6 +47,8 @@ const AuthStack = () => (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        <Stack.Screen name="VerifyOTPScreen" component={VerifyOTPScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
     </Stack.Navigator>
 );
 

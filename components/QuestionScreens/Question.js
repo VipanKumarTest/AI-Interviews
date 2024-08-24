@@ -1,20 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated, ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-
-const questions = [
-    'What is React Native?',
-    'How does React Native differ from React?',
-    'What are the advantages of using React Native for mobile app development?',
-    'Can you explain the architecture of a React Native app?',
-    'How does React Native handle navigation?',
-    'What is the role of the React Native bridge?',
-    'How do you style components in React Native?',
-    'What are some common performance optimization techniques in React Native?',
-    'How do you handle state management in React Native apps?',
-    'What are the steps to deploy a React Native app to the App Store and Google Play Store?'
-];
 
 const QuestionCard = ({ question, index, onPress, navigation }) => {
     const [status, setStatus] = useState('unanswered');
@@ -29,7 +16,7 @@ const QuestionCard = ({ question, index, onPress, navigation }) => {
             animatedValue.setValue(0);
             onPress();
             setStatus(status === 'unanswered' ? 'correct' : 'unanswered');
-            navigation.navigate('InterviewScreen')
+            navigation.navigate('InterviewScreen', { question });
         });
     };
 
@@ -51,7 +38,7 @@ const QuestionCard = ({ question, index, onPress, navigation }) => {
                 style={styles.gradientBackground}
             >
                 <Text style={styles.questionText}>
-                    {index + 1}. {question}
+                    {index + 1}. {question.question}
                 </Text>
                 <View style={styles.statusContainer}>
                     <Text style={styles.status}>
@@ -66,14 +53,50 @@ const QuestionCard = ({ question, index, onPress, navigation }) => {
     );
 };
 
-const QuestionScreen = (props) => {
+const QuestionScreen = ({ navigation, route }) => {
+    const [questions, setQuestions] = useState([]);
     const [answeredCount, setAnsweredCount] = useState(0);
-    const { navigation } = props;
-    // console.log(props);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (route.params && route.params.geminiData) {
+            try {
+                const parsedData = JSON.parse(route.params.geminiData);
+                if (Array.isArray(parsedData)) {
+                    setQuestions(parsedData);
+                } else {
+                    console.error("Parsed data is not an array:", parsedData);
+                }
+            } catch (error) {
+                console.error("Error parsing geminiData:", error);
+            }
+        }
+        setIsLoading(false);
+    }, [route.params]);
+
+    const handleNavigation = () => {
+        navigation.navigate('ResultScreen', { totalQuestions: questions.length, answeredCount: answeredCount, questions: questions });
+    };
 
     const handleQuestionPress = () => {
         setAnsweredCount(prev => prev + 1);
     };
+
+    if (isLoading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
+
+    if (questions.length === 0) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.errorText}>No questions available.</Text>
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
@@ -87,11 +110,19 @@ const QuestionScreen = (props) => {
                         key={index}
                         question={question}
                         index={index}
-                        onPress={() => navigation.navigate('InterviewScreen')}
+                        onPress={handleQuestionPress}
                         navigation={navigation}
                     />
                 ))}
             </ScrollView>
+            <TouchableOpacity onPress={handleNavigation}>
+                <LinearGradient
+                    colors={['#4c669f', '#3b5998', '#192f6a']}
+                    style={styles.submitButton}
+                >
+                    <Text style={styles.submitButtonText}>Submit your response</Text>
+                </LinearGradient>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -101,6 +132,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
         paddingTop: 50,
+        marginBottom: 30
     },
     header: {
         fontSize: 28,
@@ -146,10 +178,31 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'white',
     },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorText: {
+        fontSize: 18,
+        textAlign: 'center',
+        marginTop: 50,
+    },
     button: {
         padding: 10,
         backgroundColor: 'rgba(255, 255, 255, 0.2)',
         borderRadius: 25,
+    },
+    submitButton: {
+        padding: 15,
+        borderRadius: 25,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    submitButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
 

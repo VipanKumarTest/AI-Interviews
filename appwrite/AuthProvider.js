@@ -49,13 +49,23 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const generateOtpService = (email, url) => {
+        return authService.generateOtp(email, url);
+    }
+
+    const verifyOtpService = (email, code, newPassword, re_newPassword) => {
+        return authService.verifyOtp(email, code, newPassword, re_newPassword);
+    }
+
     const value = {
         user,
         loading,
         register,
         login,
         logout,
-        profileImage
+        profileImage,
+        generateOtpService,
+        verifyOtpService,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -8,7 +8,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 // import * as Speech from 'expo-speech';
 
 
-const InterviewScreen = () => {
+const InterviewScreen = (props) => {
     const [intStart, setIntStart] = useState(false);
     const [facing, setFacing] = useState('front');
     const [permission, requestPermission] = useCameraPermissions();
@@ -16,6 +16,11 @@ const InterviewScreen = () => {
     // const [audioPermission, requestAudioPermission] = Audio.usePermissions();
     const [recognizedText, setRecognizedText] = useState('');
     const [animation] = useState(new Animated.Value(0));
+
+    const question = props.route.params.question.question;
+    const answer = props.route.params.question.answer;
+
+    // console.log("Interview Screen => ", props);
 
     // useEffect(() => {
     // return () => {
@@ -130,6 +135,9 @@ const InterviewScreen = () => {
 
     return (
         <ScrollView style={styles.scrollView}>
+            <View style={[styles.recognizedTextContainer, { marginTop: 10, marginVertical: 0 }]}>
+                <Text style={[styles.recognizedText, { fontSize: 20, fontWeight: 15 }]}>Q. {question}</Text>
+            </View>
             <View style={styles.container}>
                 <Animated.View style={[styles.cardCreate, { transform: [{ scale: cardScale }] }]}>
                     <LinearGradient
@@ -271,11 +279,12 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         width: '90%',
         elevation: 3,
+        alignSelf: 'center'
     },
     recognizedText: {
         fontSize: 16,
         color: '#333',
-        textAlign: 'center',
+        textAlign: 'justify',
     },
     noteContainer: {
         width: '90%',
