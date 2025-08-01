@@ -48,15 +48,16 @@ Contributions are welcome! If you have suggestions or improvements, feel free to
 
 ## Screenshots
 
-<img src="https://github.com/user-attachments/assets/08756900-0db2-4c63-8ba4-6743a10f240e" alt="WhatsApp Image 2024-08-15 at 00 25 08_4c0dcdec" width="200"/>
-<img src="https://github.com/user-attachments/assets/2fdce37a-85d5-45e8-857f-7153cca3d1c7" alt="WhatsApp Image 2024-08-15 at 00 25 08_0801f76d" width="200"/>
-<img src="https://github.com/user-attachments/assets/464e2215-b69d-495e-9d32-a3d7e521bc39" alt="WhatsApp Image 2024-08-15 at 00 25 11_a2855167" width="200"/>
-<img src="https://github.com/user-attachments/assets/8fb1052f-cced-4c03-a8cf-57777ac7fcc9" alt="WhatsApp Image 2024-08-15 at 00 25 10_23b64ee5" width="200"/>
-<img src="https://github.com/user-attachments/assets/35eaf5d7-d0cf-4113-9377-dec04b472192" alt="WhatsApp Image 2024-08-15 at 00 25 10_6cee6989" width="200"/>
-<img src="https://github.com/user-attachments/assets/bfb8d786-5da5-49ed-87cd-7dbf0d0fc60a" alt="WhatsApp Image 2024-08-15 at 00 25 09_5f224308" width="200"/>
-<img src="https://github.com/user-attachments/assets/e8706865-f5fa-48f9-87dd-fa1218d67fb6" alt="WhatsApp Image 2024-08-15 at 00 25 10_f32cdab7" width="200"/>
-<img src="https://github.com/user-attachments/assets/62390f52-f6e5-451c-8985-b8c11ae27162" alt="WhatsApp Image 2024-08-15 at 00 25 09_96a71c35" width="200"/>
-<img src="https://github.com/user-attachments/assets/ca5bb136-b3e0-4f5b-a2c6-f562f4b5ef89" alt="WhatsApp Image 2024-08-15 at 00 25 09_a5c11de0" width="200"/>
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/2df68b4e-b9b5-411c-8c30-a0adc500a0f4" />
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/a1317bd2-f116-405a-84b4-28ff73bc0bd7" />
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/4a359ab9-15a9-4ab1-b1d6-52b6835c4374" />
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/2020c377-8a9c-436f-9f21-29c4108ac9da" />
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/110c9536-e55b-49cd-988e-57917e918a49" />
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/41e28c92-c50f-4a0b-853c-fedf91d28f59" />
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/ca1c0421-b77f-4d57-ace1-f0a714f7d066" />
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/6e7c45e7-e8dd-4701-ab8a-7fc9c00b2a66" />
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/65f31dac-5a20-47d0-b290-53a22a9e26f6" />
+
 
 
 ## Contact
